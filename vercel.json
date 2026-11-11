@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/casa-noua", "destination": "/casa-noua/index.html" }
+  ]
+}

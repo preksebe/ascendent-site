@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/broadsheet-4c50c087-133e-4f5e-b547-1373ae74ee5b/styles.css">
+<script src="_ds/broadsheet-4c50c087-133e-4f5e-b547-1373ae74ee5b/_ds_bundle.js"></script>
+<link rel="icon" type="image/svg+xml" href="/logo/varianta-1-iconita.svg">
+<style>
+/* Roșul Ascendent e culoarea principală, la fel ca pe landing page. Suprascrie albastrul și magenta din sistemul de design. */
+:root{
+  --color-accent:#c8102e;
+  --color-accent-100:#fdecee;--color-accent-200:#f9d0d5;--color-accent-300:#f2a5ae;--color-accent-400:#e4697a;
+  --color-accent-500:#c8102e;--color-accent-600:#a80d26;--color-accent-700:#8c0b20;--color-accent-800:#6b0818;--color-accent-900:#4a0611;
+  --color-accent-2:#c8102e;
+  --color-accent-2-100:#fdecee;--color-accent-2-200:#f9d0d5;--color-accent-2-300:#f2a5ae;--color-accent-2-400:#e4697a;
+  --color-accent-2-500:#c8102e;--color-accent-2-600:#a80d26;--color-accent-2-700:#8c0b20;--color-accent-2-800:#6b0818;--color-accent-2-900:#4a0611;
+}
+body{margin:0;background:var(--color-bg)}
+a{color:var(--color-accent-700)}
+a:hover{color:var(--color-accent)}
+.btn-primary{font-weight:600;box-shadow:0 6px 18px color-mix(in srgb,#c8102e 35%,transparent);transition:background .15s ease,transform .15s ease,box-shadow .15s ease}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 24px color-mix(in srgb,#c8102e 35%,transparent)}
+.btn-primary:active:not(:disabled){transform:none;box-shadow:0 3px 10px color-mix(in srgb,#c8102e 35%,transparent)}
+@media (prefers-reduced-motion:reduce){.btn-primary,.btn-primary:hover,.btn-primary:active{transition:none;transform:none}}
+/* banda de sus, ca pe landing page */
+.banda-antet{background:var(--color-text);color:#fff;border-bottom:4px solid var(--color-accent)}
+.banda-antet .nav{color:#fff}
+.banda-antet .nav a{color:#fff;font-size:15px}
+.banda-antet .nav a:hover{color:#fff;text-decoration:underline;text-underline-offset:6px}
+.banda-antet .nav a[aria-current='page']{color:#fff;text-decoration:underline;text-decoration-color:var(--color-accent);text-decoration-thickness:3px;text-underline-offset:8px}
+.banda-antet .btn-secondary{color:#fff;border-color:color-mix(in srgb,#fff 35%,transparent)}
+.banda-antet .btn-secondary:hover{background:color-mix(in srgb,#fff 12%,transparent)}
+.banda-antet .btn-secondary:active{background:color-mix(in srgb,#fff 20%,transparent)}
+.banda-antet :focus-visible{outline-color:#fff}
+.banda-antet .card{color:var(--color-text)}
+.banda-antet .card :focus-visible{outline-color:var(--color-accent)}
+.marca{display:inline-flex;align-items:center;gap:14px;color:#fff;text-decoration:none}
+.banda-antet .nav a.marca:hover{text-decoration:none}
+.marca svg{width:clamp(38px,5vw,48px);height:auto;flex:none}
+.marca .nume{display:block;font-family:var(--font-heading);font-weight:600;font-size:clamp(22px,3vw,30px);line-height:1;letter-spacing:.14em;text-transform:uppercase}
+.marca .descriere{display:block;margin-top:6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,#fff 72%,transparent)}
+@media (max-width:600px){
+  .banda-antet .nav{padding:var(--space-3) var(--space-4) !important;gap:var(--space-2) var(--space-4) !important}
+  .banda-antet .nav a{font-size:14px}
+  .banda-antet .nav .marca{flex-basis:100%;margin-bottom:var(--space-1)}
+}
+</style>
+</helmet>
+<div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
+
+<div class="banda-antet">
+<nav class="nav" style="flex-wrap:wrap;max-width:1240px;margin:0 auto;padding:var(--space-4) var(--space-6);gap:var(--space-4) var(--space-6)">
+  <a href="#" class="nav-brand marca" onClick="{{ goHome }}" aria-label="Ascendent, agenție imobiliară în Iași, prima pagină">
+    <svg viewBox="2 10 84 74" aria-hidden="true" focusable="false"><path d="M8 50 L44 18 L80 50" fill="none" stroke="#c8102e" stroke-width="9" stroke-linejoin="miter" stroke-linecap="square"></path><rect x="37" y="46" width="14" height="14" fill="#fff"></rect><path d="M20 54 V80 H68 V54" fill="none" stroke="#fff" stroke-width="5"></path></svg>
+    <span><span class="nume">Ascendent</span><span class="descriere">Agenție imobiliară&nbsp;·&nbsp;Iași</span></span>
+  </a>
+  <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+    <a href="#" onClick="{{ n.onClick }}" aria-current="{{ n.current }}">{{ n.label }}</a>
+  </sc-for>
+  <div style="display:flex;align-items:center;gap:var(--space-2);position:relative">
+    <button class="btn btn-secondary btn-icon" aria-label="Notificări" onClick="{{ toggleBell }}" style="position:relative">
+      <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M208,192H48a8,8,0,0,1-6.88-12C47.71,168.6,56,139.81,56,104a72,72,0,0,1,144,0c0,35.82,8.3,64.6,14.9,76A8,8,0,0,1,208,192Z" opacity="0.2"></path><path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path></svg>
+      <sc-if value="{{ hasUnread }}" hint-placeholder-val="{{ false }}">
+        <span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--color-accent-2);color:var(--color-bg);font-size:11px;line-height:18px;text-align:center">{{ unread }}</span>
+      </sc-if>
+    </button>
+    <button class="btn btn-secondary" onClick="{{ accountClick }}">{{ accountLabel }}</button>
+    <sc-if value="{{ bellOpen }}" hint-placeholder-val="{{ false }}">
+      <div class="card elev-lg" style="position:absolute;top:46px;right:0;width:min(380px,90vw);z-index:20;padding:var(--space-4);gap:var(--space-3)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:17px">Notificări</div>
+        <sc-if value="{{ noNotifs }}" hint-placeholder-val="{{ true }}">
+          <p class="text-muted" style="margin:0;font-size:14px">{{ noNotifsText }}</p>
+        </sc-if>
+        <sc-for list="{{ notifList }}" as="m" hint-placeholder-count="0">
+          <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:var(--space-3)">
+            <div style="font-size:14px;font-weight:600">{{ m.title }}</div>
+            <div style="font-size:14px">Preț nou: <strong>{{ m.newLabel }}</strong> <span class="text-muted">(înainte {{ m.oldLabel }})</span></div>
+            <div style="display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap">
+              <span class="text-muted" style="font-size:12px">{{ m.date }}</span>
+              <button class="btn btn-ghost" style="font-size:13px" onClick="{{ m.onOpen }}">Vezi proprietatea</button>
+              <button class="btn btn-ghost" style="font-size:13px" onClick="{{ m.onEmail }}">Email</button>
+              <button class="btn btn-ghost" style="font-size:13px" onClick="{{ m.onSms }}">SMS / WhatsApp</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+  </div>
+</nav>
+</div>
+
+<main style="max-width:1240px;margin:0 auto;padding:var(--space-4) var(--space-6) 96px">
+
+<sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
+  <section style="display:flex;flex-direction:column;gap:var(--space-6)">
+    <div style="max-width:760px;padding-top:var(--space-6)">
+      <h1 style="font-size:clamp(34px,5vw,56px);margin:0 0 var(--space-3);text-wrap:balance">Apartamente, case și terenuri în Iași</h1>
+      <p style="font-size:18px;margin:0;max-width:58ch;text-wrap:pretty">Pentru vânzare și&nbsp;închiriere. Salvează o&nbsp;proprietate la&nbsp;favorite și&nbsp;te anunțăm pe&nbsp;email și&nbsp;pe&nbsp;telefon când i&nbsp;se schimbă prețul.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:var(--space-4)">
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:flex-end">
+        <div class="field">
+          <label>Tranzacție</label>
+          <div class="seg">
+            <sc-for list="{{ dealOpts }}" as="o" hint-placeholder-count="3">
+              <label class="seg-opt"><input type="radio" name="deal" checked="{{ o.checked }}" onChange="{{ o.onSelect }}"></input>{{ o.label }}</label>
+            </sc-for>
+          </div>
+        </div>
+        <div class="field" style="min-width:160px">
+          <label>Tip</label>
+          <select class="input" value="{{ f.type }}" onChange="{{ setType }}">
+            <sc-for list="{{ typeOpts }}" as="o" hint-placeholder-count="5"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+          </select>
+        </div>
+        <div class="field" style="min-width:120px">
+          <label>Camere</label>
+          <select class="input" value="{{ f.rooms }}" onChange="{{ setRooms }}">
+            <sc-for list="{{ roomOpts }}" as="o" hint-placeholder-count="5"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+          </select>
+        </div>
+        <div class="field" style="min-width:170px">
+          <label>Zonă</label>
+          <select class="input" value="{{ f.zone }}" onChange="{{ setZone }}">
+            <sc-for list="{{ zoneOpts }}" as="o" hint-placeholder-count="6"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+          </select>
+        </div>
+        <div class="field" style="width:120px">
+          <label>Preț minim (€)</label>
+          <input class="input" type="number" min="0" placeholder="0" value="{{ f.min }}" onChange="{{ setMin }}"></input>
+        </div>
+        <div class="field" style="width:120px">
+          <label>Preț maxim (€)</label>
+          <input class="input" type="number" min="0" placeholder="oricât" value="{{ f.max }}" onChange="{{ setMax }}"></input>
+        </div>
+        <div class="field" style="width:130px">
+          <label>Suprafață min. (m²)</label>
+          <input class="input" type="number" min="0" placeholder="0" value="{{ f.area }}" onChange="{{ setArea }}"></input>
+        </div>
+        <label class="radio" style="min-height:36px">
+          <input type="checkbox" checked="{{ f.onlyFav }}" onChange="{{ setOnlyFav }}"></input><span class="dot" style="border-radius:var(--radius-md)"></span>Doar favorite
+        </label>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:center;justify-content:space-between">
+        <div style="font-size:15px">{{ resultLabel }} <sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" onClick="{{ resetFilters }}">Șterge filtrele</button></sc-if></div>
+        <div class="field" style="display:flex;align-items:center;gap:var(--space-2)">
+          <label style="margin:0">Sortează după</label>
+          <select class="input" style="width:auto" value="{{ sort }}" onChange="{{ setSort }}">
+            <sc-for list="{{ sortOpts }}" as="o" hint-placeholder-count="6"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <sc-if value="{{ listEmpty }}" hint-placeholder-val="{{ false }}">
+      <p style="font-size:18px;padding:var(--space-8) 0">Nicio proprietate nu se potrivește cu filtrele alese.</p>
+    </sc-if>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-6) var(--space-4)">
+      <sc-for list="{{ items }}" as="p" hint-placeholder-count="6">
+        <article style="display:flex;flex-direction:column;gap:var(--space-2)">
+          <div style="position:relative">
+            <button onClick="{{ p.onOpen }}" aria-label="Deschide {{ p.title }}" class="halftone" style="display:block;width:100%;aspect-ratio:4/3;border:0;padding:0;cursor:pointer;background:var(--color-neutral-300);border-radius:var(--radius-md);color:var(--color-neutral-700);font:inherit;font-size:13px">Fotografie</button>
+            <button class="btn btn-icon" onClick="{{ p.onFav }}" aria-label="{{ p.favLabel }}" aria-pressed="{{ p.isFav }}" style="position:absolute;top:var(--space-2);right:var(--space-2);background:var(--color-bg);color:var(--color-accent-2);box-shadow:var(--shadow-sm)">
+              <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M232,102c0,66-104,122-104,122S24,168,24,102A54,54,0,0,1,78,48c22.59,0,41.94,12.31,50,32,8.06-19.69,27.41-32,50-32A54,54,0,0,1,232,102Z" opacity="{{ p.heartOpacity }}"></path><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"></path></svg>
+            </button>
+          </div>
+          <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;align-items:center;padding-top:var(--space-1)">
+            <span style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">{{ p.dealLabel }} · {{ p.zone }}</span>
+            <sc-if value="{{ p.hasChange }}" hint-placeholder-val="{{ false }}"><span class="{{ p.changeClass }}">{{ p.changeLabel }}</span></sc-if>
+          </div>
+          <a href="#" onClick="{{ p.onOpen }}" style="font-family:var(--font-heading);font-weight:600;font-size:21px;line-height:1.2;color:var(--color-text);text-decoration:none;text-wrap:balance">{{ p.title }}</a>
+          <div style="font-size:14px" class="text-muted">{{ p.specs }}</div>
+          <div style="display:flex;align-items:baseline;gap:var(--space-3);flex-wrap:wrap">
+            <span style="font-family:var(--font-heading);font-weight:600;font-size:22px">{{ p.priceLabel }}</span>
+            <sc-if value="{{ p.showSqm }}" hint-placeholder-val="{{ true }}"><span class="text-muted" style="font-size:13px">{{ p.sqmLabel }}</span></sc-if>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+  <section style="display:flex;flex-direction:column;gap:var(--space-6);padding-top:var(--space-4)">
+    <div><button class="btn btn-ghost" onClick="{{ goHome }}">← Toate proprietățile</button></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--space-8)">
+      <div style="display:flex;flex-direction:column;gap:var(--space-2)">
+        <div class="halftone" style="aspect-ratio:4/3;background:var(--color-neutral-300);border-radius:var(--radius-md);display:grid;place-items:center;color:var(--color-neutral-700);font-size:14px">Fotografie principală</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-2)">
+          <div class="halftone" style="aspect-ratio:4/3;background:var(--color-neutral-300);border-radius:var(--radius-md)"></div>
+          <div class="halftone" style="aspect-ratio:4/3;background:var(--color-neutral-300);border-radius:var(--radius-md)"></div>
+          <div class="halftone" style="aspect-ratio:4/3;background:var(--color-neutral-300);border-radius:var(--radius-md)"></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:var(--space-4)">
+        <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;align-items:center">
+          <span style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">{{ d.dealLabel }} · {{ d.typeLabel }} · {{ d.zone }}</span>
+          <sc-if value="{{ d.hasChange }}" hint-placeholder-val="{{ false }}"><span class="{{ d.changeClass }}">{{ d.changeLabel }}</span></sc-if>
+        </div>
+        <h1 style="font-size:clamp(30px,4vw,44px);margin:0;text-wrap:balance">{{ d.title }}</h1>
+        <div style="display:flex;align-items:baseline;gap:var(--space-3);flex-wrap:wrap">
+          <span style="font-family:var(--font-heading);font-weight:600;font-size:34px">{{ d.priceLabel }}</span>
+          <span class="text-muted" style="font-size:14px">{{ d.sqmLabel }}</span>
+        </div>
+        <p style="font-size:17px;margin:0;max-width:60ch;text-wrap:pretty">{{ d.desc }}</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:var(--space-3)">
+          <sc-for list="{{ d.facts }}" as="x" hint-placeholder-count="4">
+            <div><div class="text-muted" style="font-size:12px">{{ x.k }}</div><div style="font-size:17px">{{ x.v }}</div></div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:var(--space-2);flex-wrap:wrap">
+          <button class="btn btn-secondary" onClick="{{ d.onFav }}" style="color:var(--color-accent-2-700)">{{ d.favBtn }}</button>
+        </div>
+        <p class="text-muted" style="font-size:13px;margin:0">{{ d.fansLabel }}</p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--space-8);padding-top:var(--space-6)">
+      <div>
+        <h2 style="font-size:26px">Istoricul prețului</h2>
+        <table class="table">
+          <thead><tr><th>Data</th><th style="text-align:right">Preț</th><th style="text-align:right">Diferență</th></tr></thead>
+          <tbody>
+            <sc-for list="{{ d.history }}" as="h" hint-placeholder-count="2">
+              <tr><td>{{ h.date }}</td><td style="text-align:right;font-variant-numeric:tabular-nums">{{ h.price }}</td><td style="text-align:right;font-variant-numeric:tabular-nums">{{ h.diff }}</td></tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h2 style="font-size:26px">Programează o vizionare</h2>
+        <sc-if value="{{ visitSent }}" hint-placeholder-val="{{ false }}">
+          <p style="font-size:16px">Cererea a fost trimisă. Agentul te contactează la {{ visit.phone }} pentru confirmarea orei.</p>
+        </sc-if>
+        <sc-if value="{{ visitForm }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ sendVisit }}" style="display:flex;flex-direction:column;gap:var(--space-3);max-width:440px">
+            <div class="field"><label>Nume</label><input class="input" required="required" value="{{ visit.name }}" onChange="{{ setVisitName }}"></input></div>
+            <div class="field"><label>Telefon</label><input class="input" type="tel" required="required" value="{{ visit.phone }}" onChange="{{ setVisitPhone }}"></input></div>
+            <div class="field"><label>Ziua preferată</label><input class="input" type="date" value="{{ visit.date }}" onChange="{{ setVisitDate }}"></input></div>
+            <div><button class="btn btn-primary" type="submit">Trimite cererea</button></div>
+          </form>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isFavPage }}" hint-placeholder-val="{{ false }}">
+  <section style="display:flex;flex-direction:column;gap:var(--space-6);padding-top:var(--space-6)">
+    <h1 style="font-size:clamp(34px,5vw,52px);margin:0">Favoritele mele</h1>
+    <sc-if value="{{ notLogged }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:520px;display:flex;flex-direction:column;gap:var(--space-3)">
+        <p style="font-size:17px;margin:0;text-wrap:pretty">Intră în&nbsp;cont ca&nbsp;să-ți salvezi favoritele și&nbsp;să&nbsp;afli când se&nbsp;schimbă prețul lor. Nu&nbsp;ai&nbsp;cont? Îl&nbsp;faci în&nbsp;câteva secunde.</p>
+        <div style="display:flex;gap:var(--space-2);flex-wrap:wrap"><button class="btn btn-primary" onClick="{{ openLogin }}">Intră în cont</button><button class="btn btn-secondary" onClick="{{ openRegister }}">Cont nou</button></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isLogged }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-6) var(--space-8);align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:var(--space-2);min-width:240px">
+          <div class="text-muted" style="font-size:12px">Contul tău</div>
+          <div style="font-size:17px">{{ user.email }}</div>
+          <div style="font-size:15px">{{ phoneLabel }}</div>
+          <div><button class="btn btn-ghost" onClick="{{ logout }}">Ieși din cont</button></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2)">
+          <div class="text-muted" style="font-size:12px">Notificări la schimbarea prețului</div>
+          <label class="radio"><input type="checkbox" checked="{{ user.viaEmail }}" onChange="{{ toggleViaEmail }}"></input><span class="dot" style="border-radius:var(--radius-md)"></span>Email</label>
+          <label class="radio"><input type="checkbox" checked="{{ user.viaSms }}" onChange="{{ toggleViaSms }}"></input><span class="dot" style="border-radius:var(--radius-md)"></span>SMS / WhatsApp</label>
+        </div>
+      </div>
+      <sc-if value="{{ favEmpty }}" hint-placeholder-val="{{ false }}">
+        <p style="font-size:17px">Nu ai nicio proprietate la favorite. Apasă inima de pe o proprietate ca s-o salvezi.</p>
+      </sc-if>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-6) var(--space-4)">
+        <sc-for list="{{ favItems }}" as="p" hint-placeholder-count="0">
+          <article style="display:flex;flex-direction:column;gap:var(--space-2)">
+            <div style="position:relative">
+              <button onClick="{{ p.onOpen }}" aria-label="Deschide {{ p.title }}" class="halftone" style="display:block;width:100%;aspect-ratio:4/3;border:0;padding:0;cursor:pointer;background:var(--color-neutral-300);border-radius:var(--radius-md);color:var(--color-neutral-700);font:inherit;font-size:13px">Fotografie</button>
+              <button class="btn btn-icon" onClick="{{ p.onFav }}" aria-label="{{ p.favLabel }}" style="position:absolute;top:var(--space-2);right:var(--space-2);background:var(--color-bg);color:var(--color-accent-2);box-shadow:var(--shadow-sm)">
+                <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M232,102c0,66-104,122-104,122S24,168,24,102A54,54,0,0,1,78,48c22.59,0,41.94,12.31,50,32,8.06-19.69,27.41-32,50-32A54,54,0,0,1,232,102Z" opacity="{{ p.heartOpacity }}"></path><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"></path></svg>
+              </button>
+            </div>
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;align-items:center;padding-top:var(--space-1)">
+              <span style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">{{ p.dealLabel }} · {{ p.zone }}</span>
+              <sc-if value="{{ p.hasChange }}" hint-placeholder-val="{{ false }}"><span class="{{ p.changeClass }}">{{ p.changeLabel }}</span></sc-if>
+            </div>
+            <a href="#" onClick="{{ p.onOpen }}" style="font-family:var(--font-heading);font-weight:600;font-size:21px;line-height:1.2;color:var(--color-text);text-decoration:none">{{ p.title }}</a>
+            <div style="font-size:14px" class="text-muted">{{ p.specs }}</div>
+            <span style="font-family:var(--font-heading);font-weight:600;font-size:22px">{{ p.priceLabel }}</span>
+          </article>
+        </sc-for>
+      </div>
+    </sc-if>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isOwners }}" hint-placeholder-val="{{ false }}">
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--space-8);padding-top:var(--space-8)">
+    <div style="display:flex;flex-direction:column;gap:var(--space-4);max-width:620px">
+      <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Pentru proprietari</div>
+      <h1 style="font-size:clamp(34px,5vw,54px);margin:0;text-wrap:balance">Închiriem apartamentul tău din Iași unui chiriaș verificat</h1>
+      <p style="font-size:18px;margin:0;text-wrap:pretty">Ce face agenția și când plătești comisionul: (de completat)</p>
+      <p style="font-size:16px;margin:0;text-wrap:pretty">Locuiești în afara Iașului? Lasă-ne datele și te sunăm.</p>
+    </div>
+    <div>
+      <sc-if value="{{ ownerSent }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font-size:26px">Mulțumim, {{ owner.name }}.</h2>
+        <p style="font-size:16px">Te contactăm la {{ owner.phone }}.</p>
+      </sc-if>
+      <sc-if value="{{ ownerForm }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ sendOwner }}" style="display:flex;flex-direction:column;gap:var(--space-3);max-width:460px">
+          <h2 style="font-size:26px;margin:0">Listează proprietatea</h2>
+          <div class="field"><label>Nume</label><input class="input" required="required" value="{{ owner.name }}" onChange="{{ setOwnerName }}"></input></div>
+          <div class="field"><label>Telefon</label><input class="input" type="tel" required="required" value="{{ owner.phone }}" onChange="{{ setOwnerPhone }}"></input></div>
+          <div class="field"><label>Ce vrei să faci</label>
+            <select class="input" value="{{ owner.deal }}" onChange="{{ setOwnerDeal }}"><option value="inchiriere">Să închiriez</option><option value="vanzare">Să vând</option></select>
+          </div>
+          <div class="field"><label>Zona</label>
+            <select class="input" value="{{ owner.zone }}" onChange="{{ setOwnerZone }}">
+              <sc-for list="{{ zoneOnly }}" as="z" hint-placeholder-count="6"><option value="{{ z }}">{{ z }}</option></sc-for>
+            </select>
+          </div>
+          <div class="field"><label>Câteva detalii (camere, suprafață, de când e liber)</label><textarea class="input" value="{{ owner.msg }}" onChange="{{ setOwnerMsg }}"></textarea></div>
+          <div><button class="btn btn-primary" type="submit">Trimite</button></div>
+        </form>
+      </sc-if>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+  <section style="display:flex;flex-direction:column;gap:var(--space-4);max-width:680px;padding-top:var(--space-8)">
+    <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">Despre agenție</div>
+    <h1 style="font-size:clamp(34px,5vw,54px);margin:0">Ascendent, agenție imobiliară din&nbsp;Iași</h1>
+    <p style="font-size:18px;margin:0;text-wrap:pretty">Lucrăm cu&nbsp;proprietarii care închiriază apartamente în&nbsp;Iași și&nbsp;cu&nbsp;cei care își&nbsp;cumpără prima locuință. Ne&nbsp;ocupăm de&nbsp;anunțuri, telefoane, vizionări și&nbsp;contract.</p>
+    <p style="font-size:18px;margin:0;text-wrap:pretty">Zonele în care lucrăm cel mai des: Copou, Piața Unirii și&nbsp;cartierele din&nbsp;jurul universităților.</p>
+    <div style="padding-top:var(--space-4)">
+      <h2 style="font-size:24px">Comision</h2>
+      <p style="font-size:17px;margin:0">(de completat)</p>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:var(--space-8);padding-top:var(--space-8)">
+    <div style="display:flex;flex-direction:column;gap:var(--space-4)">
+      <h1 style="font-size:clamp(34px,5vw,54px);margin:0">Contact</h1>
+      <div><div class="text-muted" style="font-size:12px">Telefon</div><div style="font-size:22px">(de completat)</div></div>
+      <div><div class="text-muted" style="font-size:12px">Email</div><div style="font-size:22px">(de completat)</div></div>
+    </div>
+    <div>
+      <sc-if value="{{ contactSent }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font-size:26px">Mesajul a fost trimis.</h2>
+        <p style="font-size:16px">Îți răspundem la {{ contact.email }}.</p>
+      </sc-if>
+      <sc-if value="{{ contactForm }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ sendContact }}" style="display:flex;flex-direction:column;gap:var(--space-3);max-width:460px">
+          <h2 style="font-size:26px;margin:0">Scrie-ne</h2>
+          <div class="field"><label>Nume</label><input class="input" required="required" value="{{ contact.name }}" onChange="{{ setContactName }}"></input></div>
+          <div class="field"><label>Email</label><input class="input" type="email" required="required" value="{{ contact.email }}" onChange="{{ setContactEmail }}"></input></div>
+          <div class="field"><label>Mesaj</label><textarea class="input" required="required" value="{{ contact.msg }}" onChange="{{ setContactMsg }}"></textarea></div>
+          <div><button class="btn btn-primary" type="submit">Trimite mesajul</button></div>
+        </form>
+      </sc-if>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isAgent }}" hint-placeholder-val="{{ false }}">
+  <section style="display:flex;flex-direction:column;gap:var(--space-4);padding-top:var(--space-6)">
+    <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-2-700)">Panou agent</div>
+    <h1 style="font-size:clamp(30px,4vw,44px);margin:0">Prețuri</h1>
+    <sc-if value="{{ notAgentUser }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:560px;display:flex;flex-direction:column;gap:var(--space-3)">
+        <p style="font-size:17px;margin:0;text-wrap:pretty">{{ agentGateText }}</p>
+        <sc-if value="{{ notLogged }}" hint-placeholder-val="{{ true }}"><div><button class="btn btn-primary" onClick="{{ openLogin }}">Intră în cont</button></div></sc-if>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isAgentUser }}" hint-placeholder-val="{{ true }}">
+    <p style="font-size:16px;margin:0;max-width:64ch;text-wrap:pretty">{{ agentHint }}</p>
+    <div style="overflow-x:auto">
+      <table class="table" style="min-width:760px">
+        <thead><tr><th>Proprietate</th><th>Tranzacție</th><th style="text-align:right">La favorite</th><th>Ultima modificare</th><th>Preț nou (€)</th><th></th></tr></thead>
+        <tbody>
+          <sc-for list="{{ agentRows }}" as="r" hint-placeholder-count="6">
+            <tr>
+              <td><a href="#" onClick="{{ r.onOpen }}">{{ r.title }}</a><div class="text-muted" style="font-size:12px">{{ r.zone }} · acum {{ r.priceLabel }}</div></td>
+              <td>{{ r.dealLabel }}</td>
+              <td style="text-align:right;font-variant-numeric:tabular-nums">{{ r.fans }}</td>
+              <td>{{ r.lastChange }}</td>
+              <td><input class="input" type="number" min="0" style="width:130px" value="{{ r.draft }}" onChange="{{ r.onDraft }}"></input></td>
+              <td><button class="btn btn-primary" onClick="{{ r.onSave }}" disabled="{{ r.unchanged }}">Actualizează</button></td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+    </sc-if>
+  </section>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ loginOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="dialog-backdrop" style="z-index:40" onClick="{{ closeLogin }}">
+    <sc-if value="{{ authSent }}" hint-placeholder-val="{{ false }}">
+      <div class="dialog" role="dialog" aria-labelledby="titlu-email" onClick="{{ stop }}">
+        <div class="dialog-title" id="titlu-email">Verifică-ți emailul</div>
+        <div class="dialog-body">Ți-am trimis un&nbsp;link de&nbsp;confirmare la&nbsp;<strong>{{ auth.email }}</strong>. Deschide-l ca&nbsp;să-ți activezi contul. Linkul e&nbsp;valabil 24&nbsp;de&nbsp;ore.</div>
+        <p class="text-muted" style="margin:0;font-size:14px">Nu&nbsp;l-ai primit? Uită-te și&nbsp;în&nbsp;dosarul Spam sau&nbsp;cere-l din&nbsp;nou.</p>
+        <div class="dialog-actions">
+          <button type="button" class="btn btn-secondary" onClick="{{ resend }}" disabled="{{ authBusy }}">Trimite din nou</button>
+          <button type="button" class="btn btn-primary" onClick="{{ closeLogin }}">Am înțeles</button>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ authForm }}" hint-placeholder-val="{{ true }}">
+      <form class="dialog" role="dialog" aria-labelledby="titlu-cont" onSubmit="{{ submitAuth }}" onClick="{{ stop }}">
+        <div class="seg" style="align-self:flex-start">
+          <label class="seg-opt"><input type="radio" name="authmode" checked="{{ authModeIntra }}" onChange="{{ setModeIntra }}"></input>Intră în cont</label>
+          <label class="seg-opt"><input type="radio" name="authmode" checked="{{ authModeCont }}" onChange="{{ setModeCont }}"></input>Cont nou</label>
+        </div>
+        <div class="dialog-title" id="titlu-cont">{{ authTitle }}</div>
+        <div class="dialog-body">{{ authIntro }}</div>
+        <div class="field"><label for="cont-email">Email</label><input id="cont-email" class="input" type="email" autocomplete="email" required="required" value="{{ auth.email }}" onChange="{{ setAuthEmail }}"></input></div>
+        <div class="field"><label for="cont-parola">Parolă</label><input id="cont-parola" class="input" type="password" autocomplete="{{ parolaAutocomplete }}" required="required" value="{{ auth.parola }}" onChange="{{ setAuthParola }}"></input>
+          <sc-if value="{{ isRegister }}" hint-placeholder-val="{{ false }}"><span class="text-muted" style="font-size:13px">{{ parolaHint }}</span></sc-if>
+        </div>
+        <sc-if value="{{ isRegister }}" hint-placeholder-val="{{ false }}">
+          <div class="field"><label for="cont-telefon">Telefon pentru SMS / WhatsApp (opțional)</label><input id="cont-telefon" class="input" type="tel" autocomplete="tel" value="{{ auth.telefon }}" onChange="{{ setAuthTelefon }}"></input></div>
+        </sc-if>
+        <sc-if value="{{ hasAuthErr }}" hint-placeholder-val="{{ false }}">
+          <p role="alert" style="margin:0;font-size:15px;color:var(--color-accent-2-700)">{{ authErr }}</p>
+        </sc-if>
+        <sc-if value="{{ showResend }}" hint-placeholder-val="{{ false }}">
+          <div><button type="button" class="btn btn-ghost" onClick="{{ resend }}" disabled="{{ authBusy }}">Trimite din nou emailul de confirmare</button></div>
+        </sc-if>
+        <div class="dialog-actions">
+          <button type="button" class="btn btn-secondary" onClick="{{ closeLogin }}">Renunță</button>
+          <button type="submit" class="btn btn-primary" disabled="{{ authBusy }}">{{ authBtn }}</button>
+        </div>
+      </form>
+    </sc-if>
+  </div>
+</sc-if>
+
+<sc-if value="{{ previewOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="dialog-backdrop" style="z-index:40" onClick="{{ closePreview }}">
+    <div class="dialog" style="width:min(520px,100%)" onClick="{{ stop }}">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);flex-wrap:wrap">
+        <div class="dialog-title">Previzualizare</div>
+        <div class="seg">
+          <label class="seg-opt"><input type="radio" name="pv" checked="{{ pv.isEmail }}" onChange="{{ pvEmail }}"></input>Email</label>
+          <label class="seg-opt"><input type="radio" name="pv" checked="{{ pv.isSms }}" onChange="{{ pvSms }}"></input>SMS / WhatsApp</label>
+        </div>
+      </div>
+      <sc-if value="{{ pv.isEmail }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);background:var(--color-bg);padding:var(--space-4);border-radius:var(--radius-md)">
+          <div style="font-size:13px" class="text-muted">De la: Ascendent Imobiliare · Către: {{ pv.to }}</div>
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:19px">{{ pv.subject }}</div>
+          <p style="margin:0;font-size:15px">Bună ziua,</p>
+          <p style="margin:0;font-size:15px;text-wrap:pretty">Proprietatea <strong>{{ pv.title }}</strong> din {{ pv.zone }}, pe care ați salvat-o la favorite, are un preț nou.</p>
+          <div style="display:flex;gap:var(--space-4);align-items:baseline;flex-wrap:wrap">
+            <span style="font-family:var(--font-heading);font-weight:600;font-size:26px">{{ pv.newLabel }}</span>
+            <span class="text-muted" style="text-decoration:line-through">{{ pv.oldLabel }}</span>
+            <span class="{{ pv.diffClass }}">{{ pv.diffLabel }}</span>
+          </div>
+          <div><button class="btn btn-primary" onClick="{{ pv.onOpen }}">Vezi proprietatea</button></div>
+          <p class="text-muted" style="margin:0;font-size:12px">Primești acest email pentru că ai proprietatea la favorite pe site-ul Ascendent. Poți opri notificările din contul tău.</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ pv.isSms }}" hint-placeholder-val="{{ false }}">
+        <div style="background:var(--color-bg);padding:var(--space-4);border-radius:var(--radius-md);display:flex;flex-direction:column;gap:var(--space-2)">
+          <div class="text-muted" style="font-size:13px">Către: {{ pv.phone }}</div>
+          <div style="align-self:flex-start;max-width:85%;background:var(--color-accent-100);color:var(--color-accent-900);padding:var(--space-3);border-radius:var(--radius-lg);font-size:15px;text-wrap:pretty">{{ pv.sms }}</div>
+        </div>
+      </sc-if>
+      <div class="dialog-actions"><button class="btn btn-secondary" onClick="{{ closePreview }}">Închide</button></div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div class="card elev-lg" style="position:fixed;left:var(--space-6);bottom:var(--space-6);z-index:50;max-width:420px;font-size:15px;padding:var(--space-3) var(--space-4)">{{ toast }}</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;notifyOnlyDrops&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Notificări&quot;},&quot;showPricePerSqm&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Listă&quot;}}">
+const ZONES = ['Copou','Centru','Tătărași','Nicolina','Păcurari','Galata','Podu Roș','Canta','Bucium','Valea Lupului','Miroslava','Alexandru cel Bun'];
+const TYPES = { apartament: 'Apartament', casa: 'Casă', teren: 'Teren', spatiu: 'Spațiu comercial' };
+// Proprietățile, contul, favoritele și notificările vin de la server (server.py).
+const api = async (path, body) => {
+  const r = await fetch(path, body === undefined ? { credentials: 'same-origin' } :
+    { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  let data = {};
+  try { data = await r.json(); } catch (e) {}
+  return { ok: r.ok && data.ok !== false, status: r.status, data };
+};
+const PAROLA_MIN = 8;
+// Lipește ultimele două cuvinte dintr-un titlu, ca să nu rămână un cuvânt singur pe ultimul rând (regula tipografie-ro).
+const lipitFinal = t => String(t).replace(/ (\S+) (\S+)$/, (m, a, b) => a.length + b.length < 24 ? ` ${a} ${b}` : m);
+const DEF_AUTH = { mode: 'intra', email: '', parola: '', telefon: '' };
+
+const fmt = n => Math.round(n).toLocaleString('ro-RO');
+const priceL = (p, deal) => deal === 'inchiriere' ? `${fmt(p)} € / lună` : `${fmt(p)} €`;
+const dateL = d => new Date(d).toLocaleDateString('ro-RO', { day: 'numeric', month: 'short', year: 'numeric' });
+const cur = p => p.history.length ? p.history[p.history.length - 1].price : 0;
+const lastDrop = p => { for (let i = p.history.length - 1; i > 0; i--) if (p.history[i].price < p.history[i - 1].price) return new Date(p.history[i].date).getTime(); return 0; };
+const DEF_F = { deal: 'toate', type: 'toate', rooms: 'orice', zone: 'toate', min: '', max: '', area: '', onlyFav: false };
+
+class Component extends DCLogic {
+  state = {
+    props: [], favs: [], user: null, notifs: [], loading: true, loadErr: false,
+    route: 'lista', sel: null, f: { ...DEF_F }, sort: 'noi', bellOpen: false,
+    loginOpen: false, auth: { ...DEF_AUTH }, authErr: '', authBusy: false, authSent: false, showResend: false, pendingFav: null,
+    preview: null, toast: '', drafts: {},
+    visit: { name: '', phone: '', date: '' }, visitSent: false,
+    owner: { name: '', phone: '', deal: 'inchiriere', zone: 'Copou', msg: '' }, ownerSent: false,
+    contact: { name: '', email: '', msg: '' }, contactSent: false
+  };
+
+  async componentDidMount() {
+    const qs = new URLSearchParams(location.search);
+    const q = qs.get('cont'); const prop = Number(qs.get('proprietate')); const pag = qs.get('pagina');
+    if (q || prop || pag) history.replaceState(null, '', location.pathname);
+    await this.load();
+    if (prop && this.state.props.some(p => p.id === prop)) this.go('detaliu', prop);
+    else if (pag === 'favorite') this.go('favorite');
+    if (!q) return;
+    if (q === 'confirmat') this.showToast('Contul e confirmat. Ai intrat în cont.');
+    else if (q === 'link-expirat') this.openAuth('intra', { authErr: 'Linkul de confirmare a expirat. Scrie adresa de email și cere unul nou.', showResend: true });
+    else this.showToast('Linkul de confirmare nu e valid sau a fost deja folosit.');
+  }
+  async load() {
+    const r = await api('/api/date');
+    if (!r.ok) return this.setState({ loading: false, loadErr: true });
+    const { props, user, favs, notifs, confirmare } = r.data;
+    this.setState({ props, user, favs, notifs, confirmare: !!confirmare, loading: false, loadErr: false });
+  }
+  openAuth(mode, extra) {
+    this.setState(s => ({ loginOpen: true, bellOpen: false, authSent: false, authErr: '', showResend: false, authBusy: false,
+      auth: { ...DEF_AUTH, email: s.auth.email, mode: mode || 'intra' }, ...(extra || {}) }));
+  }
+  async submitAuth() {
+    const s = this.state; const a = s.auth;
+    if (a.mode === 'cont' && a.parola.length < PAROLA_MIN) return this.setState({ authErr: `Parola trebuie să aibă cel puțin ${PAROLA_MIN} caractere.` });
+    this.setState({ authBusy: true, authErr: '', showResend: false });
+    if (a.mode === 'cont') {
+      const r = await api('/api/inregistrare', { email: a.email, parola: a.parola, telefon: a.telefon });
+      if (!r.ok) return this.setState({ authBusy: false, authErr: r.data.eroare || 'Nu am putut crea contul. Încearcă din nou.' });
+      if (!r.data.intrat) return this.setState({ authBusy: false, authSent: true, auth: { ...a, parola: '' } });
+      const pendC = s.pendingFav;
+      this.setState({ authBusy: false, loginOpen: false, pendingFav: null, auth: { ...DEF_AUTH }, user: r.data.user, favs: r.data.favs, notifs: r.data.notifs });
+      if (pendC) { await api(`/api/favorite/${pendC}`, {}); await this.load(); }
+      return this.showToast(pendC ? 'Contul e creat. Proprietatea e salvată la favorite.' : 'Contul e creat. Ai intrat în cont.');
+    }
+    const r = await api('/api/intrare', { email: a.email, parola: a.parola });
+    if (!r.ok) return this.setState({ authBusy: false, authErr: r.data.eroare || 'Nu am putut intra în cont. Încearcă din nou.', showResend: !!r.data.neconfirmat });
+    const pend = s.pendingFav;
+    this.setState({ authBusy: false, loginOpen: false, pendingFav: null, auth: { ...DEF_AUTH }, user: r.data.user, favs: r.data.favs, notifs: r.data.notifs });
+    if (pend && !r.data.favs.includes(pend)) { await api(`/api/favorite/${pend}`, {}); await this.load(); }
+    this.showToast(pend ? 'Ai intrat în cont. Proprietatea e salvată la favorite.' : 'Ai intrat în cont.');
+  }
+  async resend() {
+    const email = this.state.auth.email;
+    if (!email) return this.setState({ authErr: 'Scrie întâi adresa de email.' });
+    this.setState({ authBusy: true });
+    await api('/api/retrimite', { email });
+    this.setState({ authBusy: false, authSent: true, authErr: '', showResend: false });
+  }
+  go(route, sel) { this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0); }
+  showToast(t) { clearTimeout(this._t); this.setState({ toast: t }); this._t = setTimeout(() => this.setState({ toast: '' }), 4200); }
+  async toggleFav(id) {
+    if (!this.state.user) { this.openAuth('intra'); return this.setState({ pendingFav: id }); }
+    const on = this.state.favs.includes(id);
+    this.setState(s => ({ favs: on ? s.favs.filter(x => x !== id) : [...s.favs, id] }));
+    const r = await api(`/api/favorite/${id}`, {});
+    if (!r.ok) {
+      if (r.status === 401) { this.setState({ user: null, favs: [], notifs: [] }); this.openAuth('intra'); return this.setState({ pendingFav: id }); }
+      this.setState(s => ({ favs: on ? [...s.favs, id] : s.favs.filter(x => x !== id) }));
+      return this.showToast('Nu am putut salva. Încearcă din nou.');
+    }
+    this.showToast(on ? 'Scos de la favorite.' : 'Salvat la favorite. Te anunțăm când se schimbă prețul.');
+    this.load();
+  }
+  upd(group, key) { return e => { const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value; this.setState(s => ({ [group]: { ...s[group], [key]: v } })); }; }
+  async savePrice(p) {
+    const np = Number(this.state.drafts[p.id]);
+    if (!np || np === cur(p)) return;
+    const r = await api(`/api/agent/pret/${p.id}`, { pret: np, doarScaderi: !!this.props.notifyOnlyDrops });
+    if (!r.ok) return this.showToast(r.data.eroare || 'Nu am putut actualiza prețul.');
+    const drafts = { ...this.state.drafts }; delete drafts[p.id];
+    this.setState({ drafts });
+    await this.load();
+    const n = r.data.notificati; const m = r.data.emailuri; const esuate = r.data.emailuriEsuate; const isFav = this.state.favs.includes(p.id);
+    const cl = k => `${k} ${k === 1 ? 'client' : 'clienți'}`;
+    this.showToast(r.data.notificat
+      ? `Preț actualizat. Notificare în cont pentru ${cl(n)} și email la ${cl(m)}${isFav ? ' (inclusiv tu, vezi clopoțelul)' : ''}.${esuate ? ` ${esuate} ${esuate === 1 ? 'email nu a plecat' : 'emailuri nu au plecat'}.` : ''}`
+      : 'Preț actualizat. Fără notificare: prețul a crescut.');
+  }
+
+  card(p) {
+    const fav = this.state.favs.includes(p.id);
+    const price = cur(p);
+    const h = p.history; const prev = h.length > 1 ? h[h.length - 2].price : null;
+    const pct = prev ? Math.round((price - prev) / prev * 100) : 0;
+    const down = prev && price < prev;
+    const specs = [TYPES[p.type], p.rooms ? `${p.rooms} ${p.rooms === 1 ? 'cameră' : 'camere'}` : null, `${fmt(p.area)} m²`].filter(Boolean).join(' · ');
+    return {
+      id: p.id, title: lipitFinal(p.title), zone: String(p.zone).replace(/ /g, ' '), specs,
+      dealLabel: p.deal === 'inchiriere' ? 'Închiriere' : 'Vânzare', typeLabel: TYPES[p.type],
+      priceLabel: priceL(price, p.deal),
+      sqmLabel: p.deal === 'inchiriere' ? `${(price / p.area).toFixed(1).replace('.', ',')} € / m² / lună` : `${fmt(price / p.area)} € / m²`,
+      showSqm: this.props.showPricePerSqm ?? true,
+      hasChange: !!prev && price !== prev,
+      changeLabel: prev ? `${down ? 'Preț scăzut' : 'Preț crescut'} ${Math.abs(pct)}% · ${new Date(h[h.length - 1].date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'short' })}` : '',
+      changeClass: down ? 'tag tag-accent' : 'tag tag-neutral',
+      isFav: fav, heartOpacity: fav ? 1 : 0.2, favLabel: fav ? 'Scoate de la favorite' : 'Adaugă la favorite',
+      onOpen: e => { e && e.preventDefault(); this.go('detaliu', p.id); },
+      onFav: e => { e && e.stopPropagation(); this.toggleFav(p.id); }
+    };
+  }
+
+  renderVals() {
+    const s = this.state; const f = s.f;
+    const opts = (arr, val, key) => arr.map(([v, l]) => ({ v, l, label: l, checked: v === val, onSelect: () => this.setState(st => ({ f: { ...st.f, [key]: v } })) }));
+    let list = s.props.filter(p => {
+      const pr = cur(p);
+      if (f.deal !== 'toate' && p.deal !== f.deal) return false;
+      if (f.type !== 'toate' && p.type !== f.type) return false;
+      if (f.rooms !== 'orice') { const r = Number(f.rooms); if (r === 4 ? p.rooms < 4 : p.rooms !== r) return false; }
+      if (f.zone !== 'toate' && p.zone !== f.zone) return false;
+      if (f.min && pr < Number(f.min)) return false;
+      if (f.max && pr > Number(f.max)) return false;
+      if (f.area && p.area < Number(f.area)) return false;
+      if (f.onlyFav && !s.favs.includes(p.id)) return false;
+      return true;
+    });
+    const sorters = {
+      'pret-asc': (a, b) => cur(a) - cur(b), 'pret-desc': (a, b) => cur(b) - cur(a),
+      suprafata: (a, b) => b.area - a.area, noi: (a, b) => new Date(b.history[0].date) - new Date(a.history[0].date),
+      pretmp: (a, b) => cur(a) / a.area - cur(b) / b.area, reduceri: (a, b) => lastDrop(b) - lastDrop(a)
+    };
+    list = [...list].sort(sorters[s.sort]);
+    const hasFilters = JSON.stringify(f) !== JSON.stringify(DEF_F);
+
+    const unreadN = s.notifs.filter(n => !n.read).length;
+    const byId = id => s.props.find(p => p.id === id);
+    const navDefs = [['lista', 'Proprietăți'], ['favorite', `Favorite${s.favs.length ? ' (' + s.favs.length + ')' : ''}`], ['proprietari', 'Pentru proprietari'], ['despre', 'Despre'], ['contact', 'Contact'], ['agent', 'Panou agent']];
+
+    const dp = s.sel ? byId(s.sel) : null;
+    let d = {};
+    if (dp) {
+      const c = this.card(dp);
+      const fans = dp.fans;
+      d = { ...c, desc: dp.desc,
+        facts: [{ k: 'Suprafață', v: `${fmt(dp.area)} m²` }, { k: 'Camere', v: dp.rooms || '—' }, { k: 'Etaj', v: dp.floor }, { k: 'An construcție', v: dp.year || '—' }],
+        favBtn: c.isFav ? '♥ Salvat la favorite' : '♡ Adaugă la favorite',
+        fansLabel: `${fans} ${fans === 1 ? 'client are' : 'clienți au'} proprietatea la favorite.`,
+        history: [...dp.history].map((h, i, a) => ({ date: dateL(h.date), price: priceL(h.price, dp.deal), diff: i === 0 ? 'preț inițial' : `${h.price > a[i - 1].price ? '+' : '−'}${fmt(Math.abs(h.price - a[i - 1].price))} €` })).reverse()
+      };
+    }
+
+    const pvN = s.preview ? s.notifs.find(n => n.id === s.preview.id) : null;
+    let pv = {};
+    if (pvN) {
+      const p = byId(pvN.propId);
+      const down = pvN.newP < pvN.oldP;
+      const pct = Math.round(Math.abs(pvN.newP - pvN.oldP) / pvN.oldP * 100);
+      pv = {
+        isEmail: s.preview.kind === 'email', isSms: s.preview.kind === 'sms',
+        to: s.user ? s.user.email : '', phone: s.user && s.user.phone ? s.user.phone : '(fără telefon în cont)',
+        title: p.title, zone: p.zone, subject: `${down ? 'A scăzut prețul' : 'S-a schimbat prețul'}: ${p.title}, ${p.zone}`,
+        newLabel: priceL(pvN.newP, p.deal), oldLabel: priceL(pvN.oldP, p.deal),
+        diffLabel: `${down ? '−' : '+'}${pct}%`, diffClass: down ? 'tag tag-accent' : 'tag tag-neutral',
+        sms: `Ascendent Imobiliare: prețul pentru ${p.title} (${p.zone}), salvat la favorite, s-a schimbat de la ${priceL(pvN.oldP, p.deal)} la ${priceL(pvN.newP, p.deal)}. Vezi detalii pe site.`,
+        onOpen: () => { this.setState({ preview: null }); this.go('detaliu', p.id); }
+      };
+    }
+
+    return {
+      goHome: e => { e && e.preventDefault(); this.go('lista'); },
+      navItems: navDefs.map(([r, l]) => ({ label: l, current: s.route === r ? 'page' : undefined, onClick: e => { e.preventDefault(); this.go(r); } })),
+      unread: unreadN, hasUnread: unreadN > 0, bellOpen: s.bellOpen,
+      toggleBell: () => {
+        const opening = !s.bellOpen;
+        this.setState(st => ({ bellOpen: !st.bellOpen, notifs: st.bellOpen ? st.notifs : st.notifs.map(n => ({ ...n, read: true })) }));
+        if (opening && s.user && unreadN) api('/api/notificari/citite', {});
+      },
+      noNotifs: s.notifs.length === 0,
+      noNotifsText: s.user ? 'Nicio notificare încă. Când se schimbă prețul unei proprietăți de la favorite, apare aici.' : 'Intră în cont și salvează proprietăți la favorite ca să primești notificări.',
+      notifList: s.notifs.slice(0, 8).map(n => { const p = byId(n.propId); return { title: `${p.title}, ${p.zone}`, newLabel: priceL(n.newP, p.deal), oldLabel: priceL(n.oldP, p.deal), date: dateL(n.date),
+        onOpen: () => this.go('detaliu', p.id), onEmail: () => this.setState({ preview: { id: n.id, kind: 'email' }, bellOpen: false }), onSms: () => this.setState({ preview: { id: n.id, kind: 'sms' }, bellOpen: false }) }; }),
+      accountLabel: s.user ? s.user.email : 'Intră în cont',
+      accountClick: () => s.user ? this.go('favorite') : this.openAuth('intra'),
+
+      isList: s.route === 'lista', isDetail: s.route === 'detaliu' && !!dp, isFavPage: s.route === 'favorite', isOwners: s.route === 'proprietari',
+      isAbout: s.route === 'despre', isContact: s.route === 'contact', isAgent: s.route === 'agent',
+
+      f, sort: s.sort, hasFilters,
+      dealOpts: opts([['toate', 'Toate'], ['vanzare', 'Vânzare'], ['inchiriere', 'Închiriere']], f.deal, 'deal'),
+      typeOpts: [{ v: 'toate', l: 'Toate' }, ...Object.entries(TYPES).map(([v, l]) => ({ v, l }))],
+      roomOpts: [['orice', 'Oricâte'], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4+']].map(([v, l]) => ({ v, l })),
+      zoneOpts: [{ v: 'toate', l: 'Tot Iașul' }, ...ZONES.map(z => ({ v: z, l: z }))],
+      zoneOnly: ZONES,
+      sortOpts: [['noi', 'Cele mai noi'], ['pret-asc', 'Preț crescător'], ['pret-desc', 'Preț descrescător'], ['suprafata', 'Suprafață'], ['pretmp', 'Preț / m²'], ['reduceri', 'Reduceri recente']].map(([v, l]) => ({ v, l })),
+      setType: this.upd('f', 'type'), setRooms: this.upd('f', 'rooms'), setZone: this.upd('f', 'zone'),
+      setMin: this.upd('f', 'min'), setMax: this.upd('f', 'max'), setArea: this.upd('f', 'area'), setOnlyFav: this.upd('f', 'onlyFav'),
+      setSort: e => this.setState({ sort: e.target.value }),
+      resetFilters: () => this.setState({ f: { ...DEF_F } }),
+      resultLabel: s.loading ? 'Se încarcă proprietățile…' : s.loadErr ? 'Nu am putut încărca proprietățile. Reîncarcă pagina.' : `${list.length} ${list.length === 1 ? 'proprietate' : 'proprietăți'}`,
+      listEmpty: !s.loading && !s.loadErr && list.length === 0, items: list.map(p => this.card(p)),
+
+      d, visit: s.visit, visitSent: s.visitSent, visitForm: !s.visitSent,
+      setVisitName: this.upd('visit', 'name'), setVisitPhone: this.upd('visit', 'phone'), setVisitDate: this.upd('visit', 'date'),
+      sendVisit: e => { e.preventDefault(); this.setState({ visitSent: true }); },
+
+      user: s.user || {}, isLogged: !!s.user, notLogged: !s.user,
+      phoneLabel: s.user && s.user.phone ? `Telefon: ${s.user.phone}` : 'Fără telefon: notificările vin doar pe email',
+      logout: async () => { await api('/api/iesire', {}); this.setState({ user: null, favs: [], notifs: [] }); this.showToast('Ai ieșit din cont.'); this.load(); },
+      toggleViaEmail: e => { const v = e.target.checked; this.setState(st => ({ user: { ...st.user, viaEmail: v } })); api('/api/preferinte', { viaEmail: v, viaSms: s.user.viaSms }); },
+      toggleViaSms: e => { const v = e.target.checked; this.setState(st => ({ user: { ...st.user, viaSms: v } })); api('/api/preferinte', { viaEmail: s.user.viaEmail, viaSms: v }); },
+      openLogin: () => this.openAuth('intra'),
+      openRegister: () => this.openAuth('cont'),
+      isAgentUser: !!(s.user && s.user.isAgent), notAgentUser: !(s.user && s.user.isAgent),
+      agentGateText: s.user ? 'Contul tău nu are drept de agent. Prețurile le poate schimba doar agentul agenției.' : 'Prețurile le poate schimba doar agentul. Intră în cont cu contul de agent.',
+      favItems: s.favs.map(byId).filter(Boolean).map(p => this.card(p)), favEmpty: s.favs.length === 0,
+
+      owner: s.owner, ownerSent: s.ownerSent, ownerForm: !s.ownerSent,
+      setOwnerName: this.upd('owner', 'name'), setOwnerPhone: this.upd('owner', 'phone'), setOwnerDeal: this.upd('owner', 'deal'), setOwnerZone: this.upd('owner', 'zone'), setOwnerMsg: this.upd('owner', 'msg'),
+      sendOwner: e => { e.preventDefault(); this.setState({ ownerSent: true }); },
+      contact: s.contact, contactSent: s.contactSent, contactForm: !s.contactSent,
+      setContactName: this.upd('contact', 'name'), setContactEmail: this.upd('contact', 'email'), setContactMsg: this.upd('contact', 'msg'),
+      sendContact: e => { e.preventDefault(); this.setState({ contactSent: true }); },
+
+      agentHint: this.props.notifyOnlyDrops ? 'Când scazi prețul, clienții cu cont care au proprietatea la favorite primesc o notificare la clopoțel și un email, dacă nu l-au oprit din cont. La creștere nu se trimite nimic.' : 'Când schimbi prețul, clienții cu cont care au proprietatea la favorite primesc o notificare la clopoțel și un email, dacă nu l-au oprit din cont.',
+      agentRows: s.props.map(p => {
+        const fav = s.favs.includes(p.id) && !!s.user;
+        const draft = s.drafts[p.id] ?? String(cur(p));
+        return { title: p.title, zone: p.zone, dealLabel: p.deal === 'inchiriere' ? 'Închiriere' : 'Vânzare', priceLabel: priceL(cur(p), p.deal),
+          fans: p.fans + (fav ? ' (inclusiv tu)' : ''), lastChange: p.history.length ? dateL(p.history[p.history.length - 1].date) : '', draft,
+          unchanged: !Number(draft) || Number(draft) === cur(p),
+          onDraft: e => { const v = e.target.value; this.setState(st => ({ drafts: { ...st.drafts, [p.id]: v } })); },
+          onSave: () => this.savePrice(p), onOpen: e => { e.preventDefault(); this.go('detaliu', p.id); } };
+      }),
+
+      loginOpen: s.loginOpen, auth: s.auth,
+      authSent: s.authSent, authForm: !s.authSent, isRegister: s.auth.mode === 'cont',
+      authModeIntra: s.auth.mode === 'intra', authModeCont: s.auth.mode === 'cont',
+      setModeIntra: () => this.setState(st => ({ auth: { ...st.auth, mode: 'intra' }, authErr: '', showResend: false })),
+      setModeCont: () => this.setState(st => ({ auth: { ...st.auth, mode: 'cont' }, authErr: '', showResend: false })),
+      authTitle: s.auth.mode === 'cont' ? 'Cont nou' : 'Intră în cont',
+      authIntro: s.auth.mode === 'cont' ? (s.confirmare ? 'Cu un cont îți salvezi favoritele și afli când se schimbă prețul lor. Îți trimitem un email ca să confirmi adresa.' : 'Cu un cont îți salvezi favoritele și afli când se schimbă prețul lor.') : 'Intră cu adresa de email și parola contului tău.',
+      authBtn: s.authBusy ? 'Așteaptă…' : s.auth.mode === 'cont' ? 'Creează contul' : 'Intră',
+      authBusy: s.authBusy, authErr: s.authErr, hasAuthErr: !!s.authErr, showResend: s.showResend,
+      parolaHint: `Cel puțin ${PAROLA_MIN} caractere.`, parolaAutocomplete: s.auth.mode === 'cont' ? 'new-password' : 'current-password',
+      setAuthEmail: this.upd('auth', 'email'), setAuthParola: this.upd('auth', 'parola'), setAuthTelefon: this.upd('auth', 'telefon'),
+      closeLogin: () => this.setState({ loginOpen: false, pendingFav: null, authErr: '', showResend: false }),
+      stop: e => e.stopPropagation(),
+      submitAuth: e => { e.preventDefault(); this.submitAuth(); },
+      resend: () => this.resend(),
+
+      previewOpen: !!pvN, pv,
+      pvEmail: () => this.setState(st => ({ preview: { ...st.preview, kind: 'email' } })),
+      pvSms: () => this.setState(st => ({ preview: { ...st.preview, kind: 'sms' } })),
+      closePreview: () => this.setState({ preview: null }),
+      hasToast: !!s.toast, toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

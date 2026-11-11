@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Casă nouă pe parter cu terasă și grădină · Ascendent</title>
+<meta name="description" content="Casă pe parter cu două dormitoare, living cu bucătărie de 35,70 m², terasă acoperită și grădină. Lăsați adresa de email și vă anunțăm când apare pe site.">
+<link rel="icon" type="image/svg+xml" href="/logo/varianta-1-iconita.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3f2f2;
+    --surface: #eae9e9;
+    --text: #201e1d;
+    --muted: #605d5d;
+    --line: color-mix(in srgb, #201e1d 16%, transparent);
+    /* Roșul Ascendent e culoarea principală; nu mai folosim albastru. */
+    --accent: #c8102e;
+    --accent-600: #a80d26;
+    --accent-700: #8c0b20;
+    --accent-100: #fdecee;
+    --accent-2-700: #8c0b20;
+    --rosu: #c8102e;
+    --rosu-hover: #a80d26;
+    --rosu-apasat: #8c0b20;
+    --rosu-umbra: color-mix(in srgb, #c8102e 35%, transparent);
+    --font: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --radius: 2px;
+    --gutter: clamp(16px, 4vw, 40px);
+    --max: 1200px;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--font); }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: var(--accent-700); }
+  a:hover { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .vizual-ascuns { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .continut { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* antet */
+  .banda-antet { background: var(--text); color: #fff; border-bottom: 4px solid var(--rosu); }
+  .antet { display: flex; justify-content: space-between; align-items: center; gap: 16px 24px; flex-wrap: wrap; padding-top: 18px; padding-bottom: 18px; }
+  .marca { display: inline-flex; align-items: center; gap: 14px; color: #fff; text-decoration: none; }
+  .marca svg { width: clamp(40px, 6vw, 52px); height: auto; flex: none; }
+  .marca .nume { display: block; font-weight: 600; font-size: clamp(26px, 4vw, 36px); line-height: 1; letter-spacing: .14em; text-transform: uppercase; }
+  .marca .descriere { display: block; margin-top: 6px; font-size: clamp(12px, 1.4vw, 14px); letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, #fff 72%, transparent); }
+  .antet a.link-site { font-size: 16px; color: #fff; text-underline-offset: 4px; }
+  .antet a.link-site:hover { color: color-mix(in srgb, #fff 80%, transparent); }
+  .antet :focus-visible { outline-color: #fff; }
+
+  /* tipografie */
+  h1, h2, h3 { font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(34px, 4.6vw, 54px); }
+  h2 { font-size: clamp(28px, 3.6vw, 42px); }
+  h3 { font-size: 21px; }
+  p, li, td { text-wrap: pretty; }
+  .eticheta { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-700); margin: 0 0 14px; }
+  .intro { font-size: clamp(18px, 2vw, 21px); max-width: 34ch; margin: 18px 0 0; }
+
+  /* secțiunea 1 */
+  .erou { display: grid; gap: clamp(28px, 4vw, 56px); align-items: center; padding-top: clamp(16px, 4vw, 48px); padding-bottom: clamp(48px, 8vw, 96px); }
+  .erou figure { margin: 0; }
+  .erou img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius); }
+  @media (min-width: 960px) {
+    .erou { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .erou img { aspect-ratio: 4 / 3.4; }
+  }
+
+  /* formular */
+  .formular { margin-top: 28px; max-width: 520px; }
+  .rand-formular { display: flex; flex-wrap: wrap; gap: 10px; }
+  .rand-formular input {
+    flex: 1 1 240px; min-width: 0; font: inherit; font-size: 17px; color: var(--text); background: #fff;
+    border: 1px solid color-mix(in srgb, var(--text) 25%, transparent); border-radius: var(--radius); padding: 15px 14px;
+  }
+  .rand-formular input:hover { border-color: color-mix(in srgb, var(--text) 45%, transparent); }
+  .rand-formular input:focus-visible { border-color: var(--accent); outline-offset: 0; }
+  .buton {
+    flex: 0 0 auto; font: inherit; font-size: 18px; font-weight: 600; letter-spacing: .01em; color: #fff; background: var(--rosu);
+    border: 0; border-radius: var(--radius); padding: 15px 26px; cursor: pointer;
+    box-shadow: 0 6px 18px var(--rosu-umbra); transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .buton:hover { background: var(--rosu-hover); transform: translateY(-1px); box-shadow: 0 10px 24px var(--rosu-umbra); }
+  .buton:active { background: var(--rosu-apasat); transform: translateY(0); box-shadow: 0 3px 10px var(--rosu-umbra); }
+  .buton:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .buton, .buton:hover, .buton:active { transition: none; transform: none; } }
+  .buton[disabled] { opacity: .6; cursor: default; }
+  @media (max-width: 520px) { .buton { flex: 1 1 100%; } }
+  .campuri { display: grid; gap: 16px; }
+  .camp { display: grid; gap: 6px; }
+  .camp label { font-size: 15px; font-weight: 600; }
+  .camp .optional { font-weight: 400; color: var(--muted); }
+  .camp input, .camp textarea {
+    width: 100%; font: inherit; font-size: 17px; color: var(--text); background: #fff;
+    border: 1px solid color-mix(in srgb, var(--text) 25%, transparent); border-radius: var(--radius); padding: 14px;
+  }
+  .camp textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
+  .camp input:hover, .camp textarea:hover { border-color: color-mix(in srgb, var(--text) 45%, transparent); }
+  .camp input:focus-visible, .camp textarea:focus-visible { border-color: var(--accent); outline-offset: 0; }
+  @media (max-width: 520px) { .formular-intrebare .buton { width: 100%; } }
+  .nota-formular { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+  .mesaj { margin: 12px 0 0; font-size: 16px; overflow-wrap: anywhere; }
+  .mesaj:empty { display: none; }
+  .mesaj.eroare { color: var(--accent-2-700); }
+  .mesaj.eroare { font-weight: 600; }
+  .mesaj.gata { background: #fff; color: var(--text); border-left: 4px solid var(--rosu); padding: 14px 16px; border-radius: 0 var(--radius) var(--radius) 0; font-size: 17px; }
+
+  /* secțiunea 2 */
+  .casa { padding-top: clamp(48px, 8vw, 96px); padding-bottom: clamp(48px, 8vw, 96px); background: #fff; }
+  .casa .intro-sectiune { max-width: 60ch; margin: 16px 0 0; font-size: 18px; }
+  .fapte { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px 28px; margin: 36px 0 0; padding: 0; list-style: none; }
+  .fapte li { border-top: 2px solid var(--text); padding-top: 10px; }
+  .fapte .valoare { display: block; font-size: 26px; font-weight: 600; line-height: 1.2; }
+  .fapte .ce { display: block; font-size: 15px; color: var(--muted); }
+  .galerie { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; margin: 44px 0 0; padding: 0; list-style: none; }
+  .galerie figure { margin: 0; }
+  .galerie a { display: block; overflow: hidden; border-radius: var(--radius); }
+  .galerie img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .4s ease; }
+  .galerie a:hover img { transform: scale(1.03); }
+  .galerie figcaption { font-size: 15px; color: var(--muted); margin-top: 8px; }
+  .plan { display: grid; gap: 32px; margin-top: clamp(48px, 7vw, 80px); align-items: start; }
+  @media (min-width: 960px) { .plan { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); } }
+  .plan figure { margin: 0; }
+  .plan img { width: 100%; border: 1px solid var(--line); border-radius: var(--radius); }
+  .plan figcaption { font-size: 15px; color: var(--muted); margin-top: 8px; }
+  .tabel { overflow-x: auto; margin-top: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  th, td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  th { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  td.mp, th.mp { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tfoot td { font-weight: 600; border-bottom: 0; border-top: 2px solid var(--text); }
+  .nota-plan { font-size: 15px; color: var(--muted); margin: 12px 0 0; }
+
+  /* secțiunea 3 */
+  .final { padding-top: clamp(56px, 9vw, 110px); padding-bottom: clamp(56px, 9vw, 110px); }
+  .final .continut { display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 960px) { .final .continut { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); } }
+  .final p { font-size: 18px; max-width: 46ch; margin: 16px 0 0; }
+  .final img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius); }
+
+  footer { border-top: 1px solid var(--line); font-size: 15px; color: var(--muted); }
+  footer .continut { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding-top: 22px; padding-bottom: 28px; }
+  .nowrap { white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header class="banda-antet">
+  <div class="continut antet">
+    <a class="marca" href="/" aria-label="Ascendent, agenție imobiliară în Iași, prima pagină">
+      <svg viewBox="2 10 84 74" aria-hidden="true" focusable="false">
+        <path d="M8 50 L44 18 L80 50" fill="none" stroke="#c8102e" stroke-width="9" stroke-linejoin="miter" stroke-linecap="square"/>
+        <rect x="37" y="46" width="14" height="14" fill="#fff"/>
+        <path d="M20 54 V80 H68 V54" fill="none" stroke="#fff" stroke-width="5"/>
+      </svg>
+      <span><span class="nume">Ascendent</span><span class="descriere">Agenție imobiliară · Iași</span></span>
+    </a>
+    <a class="link-site" href="/">Toate proprietățile</a>
+  </div>
+</header>
+
+<main>
+  <!-- Secțiunea 1: teasing + formular -->
+  <section class="continut erou" aria-labelledby="titlu-erou">
+    <div>
+      <p class="eticheta">În curând pe <span class="nowrap">site-ul</span> Ascendent</p>
+      <h1 id="titlu-erou">O casă nouă pe parter, cu terasă acoperită și grădină</h1>
+      <p class="intro">Două dormitoare, living cu bucătărie de 35,70 m² și loc de parcare pavat în fața casei. Zona și prețul le anunțăm când casa apare pe site.</p>
+      <form class="formular" data-formular novalidate>
+        <label class="vizual-ascuns" for="email-sus">Adresa de email</label>
+        <div class="rand-formular">
+          <input id="email-sus" type="email" name="email" autocomplete="email" placeholder="adresa@email.ro" required>
+          <button class="buton" type="submit">Anunțați-mă când apare</button>
+        </div>
+        <p class="nota-formular">Vă scriem doar despre această casă.</p>
+        <p class="mesaj" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+    <figure>
+      <img src="/landing/poze/fata-trei-sferturi-1600.jpg"
+           srcset="/landing/poze/fata-trei-sferturi-800.jpg 800w, /landing/poze/fata-trei-sferturi-1600.jpg 1600w"
+           sizes="(min-width: 960px) 55vw, 100vw" width="1600" height="900" fetchpriority="high"
+           alt="Casa văzută din față: fațadă albă, acoperiș în patru ape cu țiglă neagră, terasă acoperită în stânga și mașină parcată pe aleea pavată">
+    </figure>
+  </section>
+
+  <!-- Secțiunea 2: casa și planul -->
+  <section class="casa" aria-labelledby="titlu-casa">
+    <div class="continut">
+      <p class="eticheta">Casa</p>
+      <h2 id="titlu-casa">Toate camerele, pe un singur nivel</h2>
+      <p class="intro-sectiune">Din living ieșiți direct pe terasa acoperită. Intrarea principală are vestibul, iar cele două dormitoare sunt în cealaltă parte a casei, legate de zona de zi printr-un hol.</p>
+
+      <ul class="fapte">
+        <li><span class="valoare">2</span><span class="ce">dormitoare, de 13,04 și 12,80 m²</span></li>
+        <li><span class="valoare">35,70 m²</span><span class="ce">living cu bucătărie</span></li>
+        <li><span class="valoare">15,26 m²</span><span class="ce">terasă acoperită</span></li>
+        <li><span class="valoare">85,20 m²</span><span class="ce">camerele adunate, fără terasă</span></li>
+      </ul>
+
+      <ul class="galerie">
+        <li><figure><a href="/landing/poze/terasa-acoperita-1600.jpg"><img src="/landing/poze/terasa-acoperita-800.jpg" srcset="/landing/poze/terasa-acoperita-800.jpg 800w, /landing/poze/terasa-acoperita-1600.jpg 1600w" sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw" width="1600" height="900" loading="lazy" alt="Terasa acoperită, cu tavan din lemn, uși glisante spre living și balustradă din lemn"></a><figcaption>Terasa acoperită, cu ieșire din living</figcaption></figure></li>
+        <li><figure><a href="/landing/poze/fata-strada-1600.jpg"><img src="/landing/poze/fata-strada-800.jpg" srcset="/landing/poze/fata-strada-800.jpg 800w, /landing/poze/fata-strada-1600.jpg 1600w" sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw" width="1600" height="900" loading="lazy" alt="Fațada dinspre stradă, cu ușa de intrare între doi stâlpi gri închis și alee pavată până la trepte"></a><figcaption>Fațada dinspre stradă</figcaption></figure></li>
+        <li><figure><a href="/landing/poze/spate-gradina-1600.jpg"><img src="/landing/poze/spate-gradina-800.jpg" srcset="/landing/poze/spate-gradina-800.jpg 800w, /landing/poze/spate-gradina-1600.jpg 1600w" sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw" width="1600" height="900" loading="lazy" alt="Casa văzută din grădină, cu gazon, flori pe lângă perete și terasa în dreapta"></a><figcaption>Grădina din spatele casei</figcaption></figure></li>
+        <li><figure><a href="/landing/poze/intrare-parcare-1600.jpg"><img src="/landing/poze/intrare-parcare-800.jpg" srcset="/landing/poze/intrare-parcare-800.jpg 800w, /landing/poze/intrare-parcare-1600.jpg 1600w" sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw" width="1600" height="900" loading="lazy" alt="Mașină parcată pe aleea pavată din fața intrării principale"></a><figcaption>Locul de parcare din fața intrării</figcaption></figure></li>
+        <li><figure><a href="/landing/poze/terasa-parcare-1600.jpg"><img src="/landing/poze/terasa-parcare-800.jpg" srcset="/landing/poze/terasa-parcare-800.jpg 800w, /landing/poze/terasa-parcare-1600.jpg 1600w" sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw" width="1600" height="900" loading="lazy" alt="Casa văzută din colț, cu terasa acoperită în stânga, gazon în față și mașina pe alee"></a><figcaption>Terasa și aleea, văzute din colț</figcaption></figure></li>
+        <li><figure><a href="/landing/poze/lateral-dreapta-1600.jpg"><img src="/landing/poze/lateral-dreapta-800.jpg" srcset="/landing/poze/lateral-dreapta-800.jpg 800w, /landing/poze/lateral-dreapta-1600.jpg 1600w" sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw" width="1600" height="900" loading="lazy" alt="Partea dreaptă a casei, cu ferestrele dormitoarelor și alee pavată de jur împrejur"></a><figcaption>Partea dormitoarelor</figcaption></figure></li>
+      </ul>
+
+      <div class="plan">
+        <figure>
+          <a href="/landing/poze/plan-parter-1600.jpg"><img src="/landing/poze/plan-parter-800.jpg" srcset="/landing/poze/plan-parter-800.jpg 800w, /landing/poze/plan-parter-1600.jpg 1600w" sizes="(min-width: 960px) 60vw, 100vw" width="1600" height="900" loading="lazy" alt="Planul parterului, cu suprafața fiecărei camere"></a>
+          <figcaption>Planul parterului. Apăsați pe plan ca să-l vedeți mai mare.</figcaption>
+        </figure>
+        <div>
+          <h3>Suprafețele din plan</h3>
+          <div class="tabel"><table>
+            <thead><tr><th>Camera</th><th class="mp">Suprafață</th></tr></thead>
+            <tbody>
+              <tr><td>Living cu bucătărie</td><td class="mp">35,70 m²</td></tr>
+              <tr><td>Dormitor</td><td class="mp">13,04 m²</td></tr>
+              <tr><td>Dormitor</td><td class="mp">12,80 m²</td></tr>
+              <tr><td>Baie</td><td class="mp">7,56 m²</td></tr>
+              <tr><td>Hol</td><td class="mp">5,67 m²</td></tr>
+              <tr><td>Centrală termică</td><td class="mp">4,20 m²</td></tr>
+              <tr><td>Vestibul</td><td class="mp">4,08 m²</td></tr>
+              <tr><td>Depozitare</td><td class="mp">2,15 m²</td></tr>
+            </tbody>
+            <tfoot><tr><td>Total camere</td><td class="mp">85,20 m²</td></tr></tfoot>
+          </table></div>
+          <p class="nota-plan">Plus terasa acoperită, de 15,26 m². Totalul e suma camerelor din plan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Secțiunea 3: îndemnul final -->
+  <section class="final" aria-labelledby="titlu-final">
+    <div class="continut">
+      <div>
+        <p class="eticheta">Zona, prețul și întrebări</p>
+        <h2 id="titlu-final">Vreți să aflați unde e casa și cât costă?</h2>
+        <p>Lăsați adresa de email și vă scriem când casa apare pe <span class="nowrap">site-ul</span> Ascendent, cu zona, prețul și toate pozele. Dacă aveți deja o întrebare despre casă, scrieți-o mai jos și vă răspundem pe email.</p>
+        <form class="formular formular-intrebare" data-formular novalidate>
+          <div class="campuri">
+            <div class="camp">
+              <label for="email-jos">Adresa de email</label>
+              <input id="email-jos" type="email" name="email" autocomplete="email" placeholder="adresa@email.ro" required>
+            </div>
+            <div class="camp">
+              <label for="intrebare-jos">Întrebarea dumneavoastră <span class="optional">(opțional)</span></label>
+              <textarea id="intrebare-jos" name="intrebare" rows="4" maxlength="2000" placeholder="De exemplu: în cât timp se poate muta cineva în casă?"></textarea>
+            </div>
+            <div><button class="buton" type="submit">Trimiteți și anunțați-mă</button></div>
+          </div>
+          <p class="nota-formular">Vă scriem doar despre această casă.</p>
+          <p class="mesaj" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <img src="/landing/poze/fata-gazon-800.jpg" srcset="/landing/poze/fata-gazon-800.jpg 800w, /landing/poze/fata-gazon-1600.jpg 1600w" sizes="(min-width: 960px) 45vw, 100vw" width="1600" height="900" loading="lazy"
+           alt="Casa văzută de pe gazon, cu terasa acoperită și stâlpii albi în prim-plan">
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="continut">
+    <span>Ascendent, agenție imobiliară, Iași</span>
+    <a href="/">Vedeți proprietățile de pe site</a>
+  </div>
+</footer>
+
+<script>
+  const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  document.querySelectorAll('[data-formular]').forEach((f) => {
+    const input = f.querySelector('input[type=email]');
+    const intrebare = f.querySelector('textarea');
+    const buton = f.querySelector('button');
+    const mesaj = f.querySelector('.mesaj');
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = input.value.trim();
+      const text = intrebare ? intrebare.value.trim() : '';
+      mesaj.className = 'mesaj';
+      if (!EMAIL_RE.test(email)) {
+        mesaj.classList.add('eroare');
+        mesaj.textContent = 'Scrieți o adresă de email corectă, de exemplu nume@gmail.com.';
+        input.focus();
+        return;
+      }
+      buton.disabled = true;
+      const textButon = buton.textContent;
+      buton.textContent = 'Se trimite…';
+      try {
+        const r = await fetch('/api/anunta-ma', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, intrebare: text }) });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok || d.ok === false) throw new Error(d.eroare || 'eroare');
+        [...f.children].forEach((c) => { if (c !== mesaj) c.hidden = true; });
+        mesaj.classList.add('gata');
+        mesaj.textContent = text
+          ? `Gata. Am primit întrebarea și vă răspundem la ${email}. Vă scriem și când casa apare pe site.`
+          : `Gata. Vă scriem la ${email} când casa apare pe site.`;
+      } catch (err) {
+        mesaj.classList.add('eroare');
+        mesaj.textContent = err.message && err.message !== 'eroare' ? err.message : 'Nu am putut trimite. Încercați din nou peste un minut.';
+        buton.disabled = false;
+        buton.textContent = textButon;
+      }
+    });
+  });
+</script>
+</body>
+</html>

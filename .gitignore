@@ -1,0 +1,23 @@
+# Nu se urcă niciodată pe GitHub (repository-ul e public)
+.env
+.env.*
+
+# Baza de date locală, cheia sesiunilor, conturile de test și exporturile
+date/
+*.db
+
+# Emailurile de test salvate local
+emailuri-trimise/
+
+# Fișiere de lucru, nu fac parte din site
+uploads/
+.thumbnail
+Ascendent Imobiliare.original.dc.html
+logo-sursa/font-descarcat/
+__pycache__/
+*.pyc
+.claude/
+.vercel/
+
+# Utilitar din pachetul NB AI, folosit doar local
+fara_orfane.py

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 96" width="430" height="96" role="img" aria-label="Ascendent, agenție imobiliară, Iași">
+  <title>Ascendent, agenție imobiliară, Iași</title>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&amp;display=swap');</style>
+  <path d="M8 50 L44 18 L80 50" fill="none" stroke="#c8102e" stroke-width="9" stroke-linejoin="miter" stroke-linecap="square"/>
+  <rect x="37" y="46" width="14" height="14" fill="#ffffff"/>
+  <path d="M20 54 V80 H68 V54" fill="none" stroke="#ffffff" stroke-width="5"/>
+  <text x="102" y="56" font-family="'Source Serif 4', Georgia, 'Times New Roman', serif" font-weight="600" font-size="40" letter-spacing="6" fill="#ffffff">ASCENDENT</text>
+  <text x="104" y="82" font-family="'Source Serif 4', Georgia, 'Times New Roman', serif" font-size="13" letter-spacing="3.6" fill="#c9c6c5">AGENȚIE IMOBILIARĂ · IAȘI</text>
+</svg>

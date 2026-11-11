@@ -380,8 +380,8 @@ def email_pret(email, prop, vechi, nou):
     scazut = nou < vechi
     procent = round(abs(nou - vechi) / vechi * 100)
     titlu, zona, deal = prop['title'], prop['zone'], prop['deal']
-    link = f"{SITE_URL}/?proprietate={prop['id']}"
-    link_cont = f'{SITE_URL}/?pagina=favorite'
+    link = f"{SITE_URL}/proprietati?proprietate={prop['id']}"
+    link_cont = f'{SITE_URL}/proprietati?pagina=favorite'
     subiect = f"{'A scăzut prețul' if scazut else 'S-a schimbat prețul'}: {titlu}, {zona}"
     p1 = 'Bună ziua,'
     p2 = fara_orfane(f'Proprietatea „{titlu}” din {zona}, pe care ați salvat-o la favorite, are un preț nou.')
@@ -417,7 +417,7 @@ def email_intrebare(email_client, intrebare):
         catre = 'agentia (EMAIL_AGENTIE nesetat)'
     subiect = f'Întrebare despre casa nouă de la {email_client}'
     data = datetime.now().strftime('%d.%m.%Y, %H:%M')
-    text = (f'Întrebare de pe pagina „Casă nouă” ({SITE_URL}/casa-noua)\n\nDe la: {email_client}\nData: {data}\n\n'
+    text = (f'Întrebare de pe pagina „Casă nouă” ({SITE_URL}/)\n\nDe la: {email_client}\nData: {data}\n\n'
             f'{intrebare}\n\nCând apăsați „Răspunde”, răspunsul pleacă direct la {email_client}.')
     corp = f'''<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(subiect)}</title></head>
 <body style="margin:0;background:#f3f2f2;font-family:Georgia,'Times New Roman',serif;color:#201e1d"><!--ANTET-->
@@ -503,12 +503,21 @@ def me_json(u):
 # Pe Vercel fișierele din public/ sunt servite direct; rutele de mai jos le servesc pe calculator.
 @app.get('/')
 def acasa():
+    """Prima pagină a site-ului e landing page-ul „Casă nouă”."""
     return send_from_directory(PUBLIC, 'index.html')
 
 
+@app.get('/proprietati')
+@app.get('/proprietati/')
+def proprietati():
+    """Site-ul principal: lista de proprietăți, favoritele, contul și panoul agentului."""
+    return send_from_directory(PUBLIC / 'proprietati', 'index.html')
+
+
 @app.get('/casa-noua')
-def landing_casa_noua():
-    return send_from_directory(PUBLIC / 'casa-noua', 'index.html')
+def casa_noua_veche():
+    """Adresa veche a landing page-ului duce acum la prima pagină."""
+    return redirect('/', code=301)
 
 
 @app.get('/<path:cale>')
@@ -523,15 +532,15 @@ def confirmare():
     t = request.args.get('token', '')
     u = db().execute('SELECT * FROM users WHERE token_hash=?', (hash_token(t),)).fetchone() if t else None
     if not u:
-        return redirect('/?cont=link-invalid')
+        return redirect('/proprietati?cont=link-invalid')
     if datetime.fromisoformat(u['token_expires']) < acum():
-        return redirect('/?cont=link-expirat')
+        return redirect('/proprietati?cont=link-expirat')
     db().execute('UPDATE users SET confirmed=1, token_hash=NULL, token_expires=NULL WHERE id=?', (u['id'],))
     db().commit()
     session.clear()
     session.permanent = True
     session['uid'] = u['id']
-    return redirect('/?cont=confirmat')
+    return redirect('/proprietati?cont=confirmat')
 
 
 # ---------------- API conturi ----------------

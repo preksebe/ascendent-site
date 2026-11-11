@@ -1,6 +1,9 @@
 {
   "regions": ["cdg1"],
   "rewrites": [
-    { "source": "/casa-noua", "destination": "/casa-noua/index.html" }
+    { "source": "/proprietati", "destination": "/proprietati/index.html" }
+  ],
+  "redirects": [
+    { "source": "/casa-noua", "destination": "/", "permanent": true }
   ]
 }

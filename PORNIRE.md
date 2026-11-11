@@ -24,7 +24,8 @@ deschis doar pe adresa pe care ai intrat.
 
 ## Landing page-ul „Casă nouă”
 
-- Adresa: http://127.0.0.1:8124/casa-noua
+- Adresa: http://127.0.0.1:8124 (e prima pagină a site-ului). Lista de proprietăți e la http://127.0.0.1:8124/proprietati.
+- Pe internet: https://ascendent-site.vercel.app și https://ascendent-site.vercel.app/proprietati.
 - Are trei secțiuni: anunțul cu formularul, casa cu pozele și planul, apoi îndemnul final cu formular.
 - Emailurile lăsate acolo se salvează în baza de date. Ca să le vezi, oprești serverul și scrii
   `python server.py interesati`: lista apare în `date/interesati.csv`, care se deschide în Excel.
@@ -70,6 +71,6 @@ SITE_URL=http://127.0.0.1:8124
 ## Fișierele
 
 - `server.py`: serverul (conturi, confirmare, favorite, prețuri).
-- `public/index.html`: pagina site-ului. `public/casa-noua/index.html`: landing page-ul.
+- `public/index.html`: landing page-ul (prima pagină). `public/proprietati/index.html`: site-ul cu proprietățile.
 - `Ascendent Imobiliare.original.dc.html`: copia paginii dinainte de modificări.
 - `date/ascendent.db`: baza de date. `date/.secret_key`: cheia sesiunilor, nu o da nimănui.

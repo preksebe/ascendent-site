@@ -71,6 +71,10 @@ def incarca_env():
 incarca_env()
 PE_VERCEL = bool(os.environ.get('VERCEL'))
 DATABASE_URL = os.environ.get('DATABASE_URL', '').strip()
+# Schema separată în baza Postgres (de exemplu „ascendent”), ca tabelele site-ului să nu se amestece cu altele.
+DB_SCHEMA = os.environ.get('DB_SCHEMA', '').strip()
+if DB_SCHEMA and not re.fullmatch(r'[a-z_][a-z0-9_]{0,40}', DB_SCHEMA):
+    raise RuntimeError('DB_SCHEMA poate conține doar litere mici, cifre și _.')
 MAIL_MODE = os.environ.get('MAIL_MODE', 'dezactivat' if PE_VERCEL else 'fisier')
 
 
@@ -154,6 +158,8 @@ class Baza:
             self.c.row_factory = sqlite3.Row
             self.c.execute('PRAGMA foreign_keys = ON')
 
+        self._tranzactie = False
+
     def _sql(self, q):
         if not self.pg:
             return q
@@ -161,17 +167,26 @@ class Baza:
             q = q.replace('INSERT OR IGNORE', 'INSERT', 1) + ' ON CONFLICT DO NOTHING'
         return q.replace('?', '%s')
 
+    def _schema(self):
+        # Pooler-ul de tranzacții nu păstrează setările între tranzacții, deci schema se setează la începutul fiecăreia.
+        if self.pg and DB_SCHEMA and not self._tranzactie:
+            self.c.execute(f'SET LOCAL search_path TO {DB_SCHEMA}')
+        self._tranzactie = True
+
     def execute(self, q, p=()):
+        self._schema()
         return self.c.execute(self._sql(q), p)
 
     def insert_id(self, q, p):
         """INSERT care întoarce id-ul rândului nou."""
+        self._schema()
         if self.pg:
             return self.c.execute(self._sql(q) + ' RETURNING id', p).fetchone()[0]
         return self.c.execute(q, p).lastrowid
 
     def commit(self):
         self.c.commit()
+        self._tranzactie = False
 
     def close(self):
         self.c.close()
@@ -191,6 +206,12 @@ def inchide_db(_):
 
 
 TABELE = ['users', 'props', 'prices', 'favs', 'intrebari', 'interesati', 'notifs']
+
+def schema_pg():
+    """Comenzile care creează tabelele în Postgres, în schema DB_SCHEMA dacă e setată."""
+    inceput = f'CREATE SCHEMA IF NOT EXISTS {DB_SCHEMA};\nSET search_path TO {DB_SCHEMA};\n' if DB_SCHEMA else ''
+    return inceput + SCHEMA_PG
+
 
 SCHEMA_PG = '''
 CREATE TABLE IF NOT EXISTS users (
@@ -244,7 +265,7 @@ def sql_seed_pg():
 def init_db():
     if DATABASE_URL:
         b = Baza()
-        b.c.execute(SCHEMA_PG)
+        b.c.execute(schema_pg())
         b.c.execute(sql_seed_pg())
         b.commit()
         b.close()
@@ -455,15 +476,16 @@ def cere_cont(agent=False):
 
 
 def props_json():
+    # trei interogări în total, nu câte două pe proprietate (contează când baza e la distanță)
     rows = db().execute('SELECT * FROM props ORDER BY id').fetchall()
-    out = []
-    for r in rows:
-        hist = db().execute('SELECT date, price FROM prices WHERE prop_id=? ORDER BY date, id', (r['id'],)).fetchall()
-        real = db().execute('SELECT COUNT(*) FROM favs WHERE prop_id=?', (r['id'],)).fetchone()[0]
-        out.append({'id': r['id'], 'title': r['title'], 'type': r['type'], 'deal': r['deal'], 'zone': r['zone'],
-                    'rooms': r['rooms'], 'area': r['area'], 'floor': r['floor'], 'year': r['year'], 'desc': r['descr'],
-                    'fans': real, 'history': [{'date': h['date'], 'price': h['price']} for h in hist]})
-    return out
+    istoric, fani = {}, {}
+    for h in db().execute('SELECT prop_id, date, price FROM prices ORDER BY prop_id, date, id').fetchall():
+        istoric.setdefault(h['prop_id'], []).append({'date': h['date'], 'price': h['price']})
+    for f in db().execute('SELECT prop_id, COUNT(*) AS n FROM favs GROUP BY prop_id').fetchall():
+        fani[f['prop_id']] = f['n']
+    return [{'id': r['id'], 'title': r['title'], 'type': r['type'], 'deal': r['deal'], 'zone': r['zone'],
+             'rooms': r['rooms'], 'area': r['area'], 'floor': r['floor'], 'year': r['year'], 'desc': r['descr'],
+             'fans': fani.get(r['id'], 0), 'history': istoric.get(r['id'], [])} for r in rows]
 
 
 def me_json(u):

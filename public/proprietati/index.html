@@ -655,6 +655,8 @@ class Component extends DCLogic {
   }
   async componentDidMount() {
     this._fKey = JSON.stringify(DEF_F);
+    history.replaceState({ route: 'lista', sel: null }, '');
+    window.addEventListener('popstate', e => { const st = e.state || { route: 'lista', sel: null }; this.go(st.route, st.sel, true); });
     const qs = new URLSearchParams(location.search);
     const q = qs.get('cont'); const prop = Number(qs.get('proprietate')); const pag = qs.get('pagina');
     if (q || prop || pag) history.replaceState(null, '', location.pathname);
@@ -725,7 +727,11 @@ class Component extends DCLogic {
     const inch = p.deal === 'inchiriere' ? 'închiriată' : 'vândută';
     this.showToast(p.sold ? `${p.title} e din nou activă pe site.` : `${p.title} e marcată ${inch} și nu mai apare în lista de pe site.`);
   }
-  go(route, sel) { if (route === 'detaliu' && sel && !(this.state.user && this.state.user.isAgent)) api(`/api/vizualizare/${sel}`, {}); this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, mediaTab: route === 'detaliu' ? 'foto' : this.state.mediaTab, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') { this.loadConvs(); if (this.state.agentTab === 'raport') this.loadRaport(); } }
+  go(route, sel, dinIstoric) {
+    // Fiecare pagină a site-ului are intrarea ei în istoricul browserului, ca „Înapoi” să ducă la pagina dinainte din site, nu la landing.
+    const sNou = sel ?? this.state.sel;
+    if (!dinIstoric && (route !== this.state.route || (route === 'detaliu' && sNou !== this.state.sel))) history.pushState({ route, sel: sNou }, '');
+    if (!dinIstoric && route === 'detaliu' && sel && !(this.state.user && this.state.user.isAgent)) api(`/api/vizualizare/${sel}`, {}); this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, mediaTab: route === 'detaliu' ? 'foto' : this.state.mediaTab, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') { this.loadConvs(); if (this.state.agentTab === 'raport') this.loadRaport(); } }
   showToast(t) { clearTimeout(this._t); this.setState({ toast: t }); this._t = setTimeout(() => this.setState({ toast: '' }), 4200); }
   async toggleFav(id) {
     if (!this.state.user) { this.openAuth('intra'); return this.setState({ pendingFav: id }); }

@@ -318,6 +318,14 @@
     });
   });
 </script>
+<script>
+// Când omul intră în site-ul cu proprietăți, landing page-ul înlocuiește intrarea din istoric: butonul Înapoi nu-l mai aduce aici.
+document.querySelectorAll('a[href="/proprietati"]').forEach(a => a.addEventListener('click', e => {
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
+  e.preventDefault();
+  location.replace(a.getAttribute('href'));
+}));
+</script>
 <script src="/chat.js" defer></script>
 </body>
 </html>

@@ -333,6 +333,27 @@ def init_db():
     c.close()
 
 
+_SCHEMA_PREGATITA = False
+
+
+@app.before_request
+def pregateste_schema_pg():
+    """Pe Vercel nu rulează init_db() (rulează doar la `python server.py`), deci tabelele și coloanele noi nu s-ar crea niciodată
+    în Supabase. Prima cerere după fiecare pornire a funcției le creează, dacă lipsesc. Comenzile sunt sigure la repetare.
+    Dacă nu merge, se scrie în jurnal și cererea continuă, ca să nu cadă tot site-ul."""
+    global _SCHEMA_PREGATITA
+    if _SCHEMA_PREGATITA or not DATABASE_URL:
+        return
+    try:
+        b = Baza()
+        b.c.execute(schema_pg())
+        b.commit()
+        b.close()
+        _SCHEMA_PREGATITA = True
+    except Exception as e:
+        app.logger.warning('Schema Postgres nu a putut fi pregătită (%s): %s', type(e).__name__, e)
+
+
 def acum():
     return datetime.now(timezone.utc)
 

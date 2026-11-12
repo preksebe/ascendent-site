@@ -483,6 +483,26 @@ a:hover{color:var(--color-accent)}
             </div>
           </sc-if>
 
+          <h2 style="font-size:24px;margin:var(--space-6) 0 0">Cele mai deschise proprietăți</h2>
+          <p class="text-muted" style="margin:0;font-size:14px">{{ raportDeschiseInfo }}</p>
+          <sc-if value="{{ raportAreDeschise }}" hint-placeholder-val="{{ false }}">
+            <div class="card" style="padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2);max-width:620px">
+              <sc-for list="{{ raportDeschise }}" as="r" hint-placeholder-count="0">
+                <div class="bara"><div class="bara-text"><span>{{ r.nume }}</span><span>{{ r.n }}</span></div><div class="bara-fond"><div class="bara-plin" style="width:{{ r.latime }}%"></div></div></div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <h2 style="font-size:24px;margin:var(--space-6) 0 0">Întrebările din chatbot</h2>
+          <p class="text-muted" style="margin:0;font-size:14px">{{ raportChatInfo }}</p>
+          <sc-if value="{{ raportAreChat }}" hint-placeholder-val="{{ false }}">
+            <div class="card" style="padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2);max-width:820px">
+              <sc-for list="{{ raportChat }}" as="q" hint-placeholder-count="0">
+                <p style="margin:0;font-size:15px;overflow-wrap:anywhere"><span class="text-muted" style="font-size:12px">{{ q.data }}</span><br>{{ q.text }}</p>
+              </sc-for>
+            </div>
+          </sc-if>
+
           <h2 style="font-size:24px;margin:var(--space-6) 0 0">Ce s-a vândut</h2>
           <p class="text-muted" style="margin:0;font-size:14px">{{ raportVandInfo }}</p>
           <sc-if value="{{ raportAreVandute }}" hint-placeholder-val="{{ false }}">
@@ -705,7 +725,7 @@ class Component extends DCLogic {
     const inch = p.deal === 'inchiriere' ? 'închiriată' : 'vândută';
     this.showToast(p.sold ? `${p.title} e din nou activă pe site.` : `${p.title} e marcată ${inch} și nu mai apare în lista de pe site.`);
   }
-  go(route, sel) { this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, mediaTab: route === 'detaliu' ? 'foto' : this.state.mediaTab, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') { this.loadConvs(); if (this.state.agentTab === 'raport') this.loadRaport(); } }
+  go(route, sel) { if (route === 'detaliu' && sel && !(this.state.user && this.state.user.isAgent)) api(`/api/vizualizare/${sel}`, {}); this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, mediaTab: route === 'detaliu' ? 'foto' : this.state.mediaTab, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') { this.loadConvs(); if (this.state.agentTab === 'raport') this.loadRaport(); } }
   showToast(t) { clearTimeout(this._t); this.setState({ toast: t }); this._t = setTimeout(() => this.setState({ toast: '' }), 4200); }
   async toggleFav(id) {
     if (!this.state.user) { this.openAuth('intra'); return this.setState({ pendingFav: id }); }
@@ -783,6 +803,12 @@ class Component extends DCLogic {
       raportAreCautari: grupuri.length > 0, raportCautari: grupuri,
       raportCautariInfo: this.state.raportEroare ? 'Nu am putut încărca raportul. Reîncarcă pagina.' : !r ? 'Se încarcă…' : !c.total ? 'Nicio căutare înregistrată încă. Înregistrarea a pornit odată cu această secțiune; căutările de dinainte nu s-au salvat.'
         : `${c.total} ${c.total === 1 ? 'căutare' : 'căutări'} cu filtre în lista de proprietăți, din ${dateL(c.dela)} până acum. ${c.cuBuget} ${c.cuBuget === 1 ? 'a avut' : 'au avut'} și un preț maxim ales.`,
+      raportAreDeschise: !!r && r.deschise.length > 0,
+      raportDeschise: r ? (mx => r.deschise.map(x => ({ nume: `${x.titlu}, ${x.zona}`, n: x.n, latime: Math.round(x.n / mx * 100) })))(Math.max(1, ...r.deschise.map(x => x.n))) : [],
+      raportDeschiseInfo: !r ? '' : r.deschise.length ? 'De câte ori a fost deschisă pagina fiecărei proprietăți (o deschidere pe oră de la același vizitator; agentul nu se numără). Se numără de când există această secțiune.' : 'Nicio deschidere înregistrată încă. Numărătoarea a pornit odată cu această secțiune.',
+      raportAreChat: !!r && r.chat.ultimele.length > 0,
+      raportChat: r ? r.chat.ultimele.map(q => ({ text: q.text, data: dateL(q.data) })) : [],
+      raportChatInfo: !r ? '' : r.chat.intrebari ? `${r.chat.conversatii} ${r.chat.conversatii === 1 ? 'conversație' : 'conversații'} și ${r.chat.intrebari} ${r.chat.intrebari === 1 ? 'întrebare' : 'întrebări'} în total. Mai jos, ultimele ${r.chat.ultimele.length}, cele mai noi primele.` : 'Nicio întrebare încă.',
       raportAreVandute: vand.length > 0, raportVandute: bare(vand, v => v),
       raportVandInfo: !r ? '' : vand.length ? `${totalVand} ${totalVand === 1 ? 'proprietate marcată' : 'proprietăți marcate'} vândută sau închiriată.` : 'Nicio proprietate marcată vândută încă. Folosește butonul „Marchează vândută” din secțiunea Prețuri.'
     };

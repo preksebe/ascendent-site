@@ -65,6 +65,17 @@ deschis doar pe adresa pe care ai intrat.
   în listă. Cele fără tur nu au taburile.
 - Asistentul de pe site știe care proprietăți au tur și le poate spune clienților.
 
+## Panou agent: sidebar și raport
+
+- Panoul are trei secțiuni în sidebar: Prețuri (inclusiv turul virtual și statusul proprietății), Conversații cu asistentul și Raport.
+- Raportul arată: ce au căutat clienții (zone, tipuri, camere, vânzare sau închiriere), cele mai deschise proprietăți,
+  ultimele întrebări din chatbot și ce s-a vândut pe tipuri.
+- Căutările și deschiderile de pagini se salvează anonim, fără cont și fără adresa IP, doar de când există raportul.
+  Cele de dinainte nu se pot recupera. Agentul nu se numără.
+- Vânzările apar doar dacă marchezi proprietatea cu „Marchează vândută” (sau „închiriată”) în Prețuri. O proprietate
+  marcată dispare din lista publică și nu mai e recomandată de chatbot; „Reactivează” o aduce înapoi.
+- Pe internet, tabelele `cautari` și `vizualizari` și coloana `vandut_la` se creează singure la prima pornire a serverului nou.
+
 ## Contul de agent
 
 Doar contul de agent poate schimba prețurile din „Panou agent”. Ca să faci un cont de agent:

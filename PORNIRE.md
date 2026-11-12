@@ -56,6 +56,15 @@ deschis doar pe adresa pe care ai intrat.
   publici din nou site-ul.
 - Pe calculator, fără cheie, fereastra spune „Asistentul nu e disponibil acum.”
 
+## Turul virtual 3D (Matterport)
+
+- În „Panou agent”, ultima coloană din tabel e „Tur virtual 3D (link Matterport)”. Lipești linkul turului
+  (de forma `https://my.matterport.com/show/?m=…`) și apeși „Salvează”. Ca să scoți turul, golești câmpul și apeși „Salvează”.
+- Se acceptă doar linkuri Matterport. Orice alt link e refuzat.
+- Proprietățile cu tur au pe pagina lor două taburi, „Fotografii” și „Tur virtual 3D”, plus eticheta „Tur virtual 3D” pe card,
+  în listă. Cele fără tur nu au taburile.
+- Asistentul de pe site știe care proprietăți au tur și le poate spune clienților.
+
 ## Contul de agent
 
 Doar contul de agent poate schimba prețurile din „Panou agent”. Ca să faci un cont de agent:

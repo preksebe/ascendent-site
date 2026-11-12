@@ -171,6 +171,7 @@ a:hover{color:var(--color-accent)}
             <button class="btn btn-icon" onClick="{{ p.onFav }}" aria-label="{{ p.favLabel }}" aria-pressed="{{ p.isFav }}" style="position:absolute;top:var(--space-2);right:var(--space-2);background:var(--color-bg);color:var(--color-accent-2);box-shadow:var(--shadow-sm)">
               <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M232,102c0,66-104,122-104,122S24,168,24,102A54,54,0,0,1,78,48c22.59,0,41.94,12.31,50,32,8.06-19.69,27.41-32,50-32A54,54,0,0,1,232,102Z" opacity="{{ p.heartOpacity }}"></path><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"></path></svg>
             </button>
+            <sc-if value="{{ p.hasTour }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:var(--space-2);left:var(--space-2);pointer-events:none;background:#201e1d;color:#fff;font-size:12px;font-weight:600;padding:4px 8px;border-radius:2px;border-left:3px solid #c8102e">Tur virtual 3D</span></sc-if>
           </div>
           <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;align-items:center;padding-top:var(--space-1)">
             <span style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-700)">{{ p.dealLabel }} · {{ p.zone }}</span>
@@ -193,11 +194,25 @@ a:hover{color:var(--color-accent)}
     <div><button class="btn btn-ghost" onClick="{{ goHome }}">← Toate proprietățile</button></div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--space-8)">
       <div style="display:flex;flex-direction:column;gap:var(--space-2)">
+        <sc-if value="{{ d.hasTour }}" hint-placeholder-val="{{ false }}">
+          <div role="tablist" aria-label="Fotografii sau tur virtual" style="display:flex;gap:var(--space-2);flex-wrap:wrap">
+            <button type="button" role="tab" id="tab-foto" aria-controls="panou-media" class="{{ d.tabFotoClass }}" aria-selected="{{ d.tabFotoSel }}" onClick="{{ d.showFoto }}">Fotografii</button>
+            <button type="button" role="tab" id="tab-tur" aria-controls="panou-media" class="{{ d.tabTurClass }}" aria-selected="{{ d.tabTurSel }}" onClick="{{ d.showTur }}">Tur virtual 3D</button>
+          </div>
+        </sc-if>
+        <div id="panou-media" role="{{ d.panelRole }}" style="display:flex;flex-direction:column;gap:var(--space-2)">
+        <sc-if value="{{ d.showPhotos }}" hint-placeholder-val="{{ true }}">
         <div class="halftone" style="aspect-ratio:4/3;background:var(--color-neutral-300);border-radius:var(--radius-md);display:grid;place-items:center;color:var(--color-neutral-700);font-size:14px">Fotografie principală</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-2)">
           <div class="halftone" style="aspect-ratio:4/3;background:var(--color-neutral-300);border-radius:var(--radius-md)"></div>
           <div class="halftone" style="aspect-ratio:4/3;background:var(--color-neutral-300);border-radius:var(--radius-md)"></div>
           <div class="halftone" style="aspect-ratio:4/3;background:var(--color-neutral-300);border-radius:var(--radius-md)"></div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ d.showTourNow }}" hint-placeholder-val="{{ false }}">
+          <iframe src="{{ d.tourUrl }}" title="{{ d.tourTitle }}" allow="xr-spatial-tracking; fullscreen" style="display:block;width:100%;aspect-ratio:4/3;border:0;border-radius:var(--radius-md);background:var(--color-neutral-300)"></iframe>
+          <p class="text-muted" style="font-size:13px;margin:0;text-wrap:pretty">Vă plimbați prin locuință cu mouse-ul sau cu degetul. Turul e găzduit de Matterport. <a href="{{ d.tourUrl }}" target="_blank" rel="noopener">Deschideți turul pe tot ecranul</a></p>
+        </sc-if>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:var(--space-4)">
@@ -387,8 +402,8 @@ a:hover{color:var(--color-accent)}
     <sc-if value="{{ isAgentUser }}" hint-placeholder-val="{{ true }}">
     <p style="font-size:16px;margin:0;max-width:64ch;text-wrap:pretty">{{ agentHint }}</p>
     <div style="overflow-x:auto">
-      <table class="table" style="min-width:760px">
-        <thead><tr><th>Proprietate</th><th>Tranzacție</th><th style="text-align:right">La favorite</th><th>Ultima modificare</th><th>Preț nou (€)</th><th></th></tr></thead>
+      <table class="table" style="min-width:1080px">
+        <thead><tr><th>Proprietate</th><th>Tranzacție</th><th style="text-align:right">La favorite</th><th>Ultima modificare</th><th>Preț nou (€)</th><th></th><th>Tur virtual 3D (link Matterport)</th></tr></thead>
         <tbody>
           <sc-for list="{{ agentRows }}" as="r" hint-placeholder-count="6">
             <tr>
@@ -398,6 +413,7 @@ a:hover{color:var(--color-accent)}
               <td>{{ r.lastChange }}</td>
               <td><input class="input" type="number" min="0" style="width:130px" value="{{ r.draft }}" onChange="{{ r.onDraft }}"></input></td>
               <td><button class="btn btn-primary" onClick="{{ r.onSave }}" disabled="{{ r.unchanged }}">Actualizează</button></td>
+              <td><div style="display:flex;gap:var(--space-2);align-items:center"><input class="input" type="url" placeholder="https://my.matterport.com/show/?m=…" aria-label="{{ r.tourLabel }}" style="width:250px" value="{{ r.tourDraft }}" onChange="{{ r.onTourDraft }}"></input><button class="btn btn-secondary" onClick="{{ r.onTourSave }}" disabled="{{ r.tourUnchanged }}">Salvează</button></div></td>
             </tr>
           </sc-for>
         </tbody>
@@ -532,7 +548,7 @@ class Component extends DCLogic {
     props: [], favs: [], user: null, notifs: [], loading: true, loadErr: false,
     route: 'lista', sel: null, f: { ...DEF_F }, sort: 'noi', bellOpen: false,
     loginOpen: false, auth: { ...DEF_AUTH }, authErr: '', authBusy: false, authSent: false, showResend: false, pendingFav: null,
-    preview: null, toast: '', drafts: {},
+    preview: null, toast: '', drafts: {}, tourDrafts: {}, mediaTab: 'foto',
     visit: { name: '', phone: '', date: '' }, visitSent: false,
     owner: { name: '', phone: '', deal: 'inchiriere', zone: 'Copou', msg: '' }, ownerSent: false,
     contact: { name: '', email: '', msg: '' }, contactSent: false
@@ -592,7 +608,7 @@ class Component extends DCLogic {
     const r = await api('/api/agent/conversatii');
     this.setState({ convs: r.ok ? r.data.conversatii : [] });
   }
-  go(route, sel) { this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') this.loadConvs(); }
+  go(route, sel) { this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, mediaTab: route === 'detaliu' ? 'foto' : this.state.mediaTab, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') this.loadConvs(); }
   showToast(t) { clearTimeout(this._t); this.setState({ toast: t }); this._t = setTimeout(() => this.setState({ toast: '' }), 4200); }
   async toggleFav(id) {
     if (!this.state.user) { this.openAuth('intra'); return this.setState({ pendingFav: id }); }
@@ -623,6 +639,15 @@ class Component extends DCLogic {
       : 'Preț actualizat. Fără notificare: prețul a crescut.');
   }
 
+  async saveTour(p) {
+    const r = await api(`/api/agent/tur/${p.id}`, { tur: this.state.tourDrafts[p.id] ?? '' });
+    if (!r.ok) return this.showToast(r.data.eroare || 'Nu am putut salva turul virtual.');
+    const tourDrafts = { ...this.state.tourDrafts }; delete tourDrafts[p.id];
+    this.setState({ tourDrafts });
+    await this.load();
+    this.showToast(r.data.tur ? `Tur virtual salvat pentru ${p.title}.` : `Turul virtual a fost scos de la ${p.title}.`);
+  }
+
   card(p) {
     const fav = this.state.favs.includes(p.id);
     const price = cur(p);
@@ -639,6 +664,7 @@ class Component extends DCLogic {
       hasChange: !!prev && price !== prev,
       changeLabel: prev ? `${down ? 'Preț scăzut' : 'Preț crescut'} ${Math.abs(pct)}% · ${new Date(h[h.length - 1].date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'short' })}` : '',
       changeClass: down ? 'tag tag-accent' : 'tag tag-neutral',
+      hasTour: !!p.tour,
       isFav: fav, heartOpacity: fav ? 1 : 0.2, favLabel: fav ? 'Scoate de la favorite' : 'Adaugă la favorite',
       onOpen: e => { e && e.preventDefault(); this.go('detaliu', p.id); },
       onFav: e => { e && e.stopPropagation(); this.toggleFav(p.id); }
@@ -680,6 +706,12 @@ class Component extends DCLogic {
       d = { ...c, desc: dp.desc,
         facts: [{ k: 'Suprafață', v: `${fmt(dp.area)} m²` }, { k: 'Camere', v: dp.rooms || '—' }, { k: 'Etaj', v: dp.floor }, { k: 'An construcție', v: dp.year || '—' }],
         favBtn: c.isFav ? '♥ Salvat la favorite' : '♡ Adaugă la favorite',
+        hasTour: !!dp.tour, showPhotos: !dp.tour || s.mediaTab !== 'tur', showTourNow: !!dp.tour && s.mediaTab === 'tur',
+        tourUrl: dp.tour ? `https://my.matterport.com/show/?m=${encodeURIComponent(dp.tour)}` : '',
+        tourTitle: `Tur virtual 3D: ${dp.title}`, panelRole: dp.tour ? 'tabpanel' : 'region',
+        tabFotoClass: s.mediaTab !== 'tur' ? 'btn btn-primary' : 'btn btn-secondary', tabFotoSel: String(s.mediaTab !== 'tur'),
+        tabTurClass: s.mediaTab === 'tur' ? 'btn btn-primary' : 'btn btn-secondary', tabTurSel: String(s.mediaTab === 'tur'),
+        showFoto: () => this.setState({ mediaTab: 'foto' }), showTur: () => this.setState({ mediaTab: 'tur' }),
         fansLabel: `${fans} ${fans === 1 ? 'client are' : 'clienți au'} proprietatea la favorite.`,
         history: [...dp.history].map((h, i, a) => ({ date: dateL(h.date), price: priceL(h.price, dp.deal), diff: i === 0 ? 'preț inițial' : `${h.price > a[i - 1].price ? '+' : '−'}${fmt(Math.abs(h.price - a[i - 1].price))} €` })).reverse()
       };
@@ -768,7 +800,12 @@ class Component extends DCLogic {
           fans: p.fans + (fav ? ' (inclusiv tu)' : ''), lastChange: p.history.length ? dateL(p.history[p.history.length - 1].date) : '', draft,
           unchanged: !Number(draft) || Number(draft) === cur(p),
           onDraft: e => { const v = e.target.value; this.setState(st => ({ drafts: { ...st.drafts, [p.id]: v } })); },
-          onSave: () => this.savePrice(p), onOpen: e => { e.preventDefault(); this.go('detaliu', p.id); } };
+          onSave: () => this.savePrice(p), onOpen: e => { e.preventDefault(); this.go('detaliu', p.id); },
+          tourLabel: `Link tur virtual pentru ${p.title}`,
+          tourDraft: s.tourDrafts[p.id] ?? (p.tour ? `https://my.matterport.com/show/?m=${p.tour}` : ''),
+          tourUnchanged: s.tourDrafts[p.id] === undefined || s.tourDrafts[p.id].trim() === (p.tour ? `https://my.matterport.com/show/?m=${p.tour}` : ''),
+          onTourDraft: e => { const v = e.target.value; this.setState(st => ({ tourDrafts: { ...st.tourDrafts, [p.id]: v } })); },
+          onTourSave: () => this.saveTour(p) };
       }),
 
       loginOpen: s.loginOpen, auth: s.auth,

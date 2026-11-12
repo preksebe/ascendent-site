@@ -45,11 +45,64 @@ a:hover{color:var(--color-accent)}
 .marca svg{width:clamp(38px,5vw,48px);height:auto;flex:none}
 .marca .nume{display:block;font-family:var(--font-heading);font-weight:600;font-size:clamp(22px,3vw,30px);line-height:1;letter-spacing:.14em;text-transform:uppercase}
 .marca .descriere{display:block;margin-top:6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,#fff 72%,transparent)}
-@media (max-width:600px){
-  .banda-antet .nav{padding:var(--space-3) var(--space-4) !important;gap:var(--space-2) var(--space-4) !important}
-  .banda-antet .nav a{font-size:14px}
-  .banda-antet .nav .marca{flex-basis:100%;margin-bottom:var(--space-1)}
+/* meniul de sus: pe o singură linie; când nu mai încape, linkurile se strâng într-un buton „Meniu” */
+.banda-antet{position:relative}
+.banda-antet .nav{flex-wrap:nowrap !important;gap:28px !important}
+.banda-antet .nav .nav-links{display:flex;align-items:center;gap:28px}
+.banda-antet .nav .nav-links a{white-space:nowrap;padding:6px 0}
+.nav-acte{display:flex;align-items:center;gap:var(--space-2);position:relative;flex:none}
+.banda-antet .btn.pastila{border-radius:999px;padding-inline:var(--space-4);max-width:230px;white-space:nowrap}
+.banda-antet .btn.pastila .cont-text{overflow:hidden;text-overflow:ellipsis}
+.banda-antet .btn.pastila .cont-icon{display:none}
+.banda-antet .btn.clopot{border:0;background:transparent;border-radius:50%;color:#fff}
+.banda-antet .btn.clopot:hover{background:color-mix(in srgb,#fff 14%,transparent)}
+.banda-antet .btn.clopot:active{background:color-mix(in srgb,#fff 22%,transparent)}
+.nav-burger{display:none !important}
+@media (max-width:1280px){
+  .banda-antet .nav.nav-admin .nav-links{display:none}
+  .banda-antet .nav.nav-admin .nav-burger{display:inline-flex !important}
 }
+@media (max-width:1150px){
+  .banda-antet .nav .nav-links{display:none}
+  .banda-antet .nav .nav-burger{display:inline-flex !important}
+}
+@media (max-width:1280px){
+  .banda-antet .nav.nav-admin .nav-links.deschis{display:flex}
+}
+@media (max-width:1150px){
+  .banda-antet .nav .nav-links.deschis{display:flex}
+}
+.banda-antet .nav .nav-links.deschis{flex-direction:column;align-items:stretch;gap:2px;position:absolute;z-index:30;left:var(--space-4);right:var(--space-4);top:calc(100% + 8px);padding:var(--space-2);background:#2b2827;border:1px solid color-mix(in srgb,#fff 16%,transparent);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.banda-antet .nav .nav-links.deschis a{padding:12px 16px;border-radius:12px;font-size:16px}
+.banda-antet .nav .nav-links.deschis a:hover{background:color-mix(in srgb,#fff 10%,transparent);text-decoration:none}
+.banda-antet .nav .nav-links.deschis a[aria-current='page']{background:color-mix(in srgb,#c8102e 30%,transparent);text-decoration:none}
+@media (max-width:600px){
+  .banda-antet .nav{padding:var(--space-3) var(--space-4) !important;gap:var(--space-2) !important}
+  .marca .descriere{display:none}
+  .marca .nume{font-size:20px;letter-spacing:.1em}
+  .marca{gap:10px}
+  .banda-antet .btn.pastila{max-width:140px;padding-inline:var(--space-3)}
+}
+@media (max-width:480px){
+  .nav-brand{margin-right:auto}
+  .banda-antet .btn.pastila{width:36px;height:36px;padding:0;justify-content:center}
+  .banda-antet .btn.pastila .cont-text{display:none}
+  .banda-antet .btn.pastila .cont-icon{display:block}
+}
+/* Prețuri: fiecare proprietate e un card care încape în pagină, nu un tabel lat */
+.pret-lista{display:flex;flex-direction:column;gap:var(--space-3)}
+.pret-card{padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)}
+.pret-cap{display:flex;justify-content:space-between;gap:var(--space-4);align-items:flex-start;flex-wrap:wrap}
+.pret-titlu a{font-family:var(--font-heading);font-weight:600;font-size:18px}
+.pret-status{display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap}
+.pret-meta{font-size:13px}
+.pret-controale{display:flex;flex-wrap:wrap;gap:var(--space-4)}
+.pret-controale .field{flex:0 1 auto}
+.pret-controale .pret-tur{flex:1 1 340px}
+.pret-pereche{display:flex;gap:var(--space-2);align-items:stretch}
+.pret-pereche .input{flex:1;min-width:0}
+.pret-controale .field:first-child .input{flex:0 0 130px}
+.pret-pereche .btn{flex:none}
 /* panoul agentului: meniu în stânga, conținut în dreapta */
 .panou{display:grid;grid-template-columns:220px minmax(0,1fr);gap:var(--space-6);align-items:start}
 .panou-meniu{position:sticky;top:var(--space-4);display:flex;flex-direction:column;gap:var(--space-1);padding:var(--space-3);border:1px solid var(--color-border);border-radius:8px;background:var(--color-surface,#fff)}
@@ -74,22 +127,27 @@ a:hover{color:var(--color-accent)}
 <div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
 
 <div class="banda-antet">
-<nav class="nav" style="flex-wrap:wrap;max-width:1240px;margin:0 auto;padding:var(--space-4) var(--space-6);gap:var(--space-4) var(--space-6)">
+<nav class="{{ navClass }}" style="max-width:1240px;margin:0 auto;padding:var(--space-4) var(--space-6)">
   <a href="#" class="nav-brand marca" onClick="{{ goHome }}" aria-label="Ascendent, agenție imobiliară în Iași, prima pagină">
     <svg viewBox="2 10 84 74" aria-hidden="true" focusable="false"><path d="M8 50 L44 18 L80 50" fill="none" stroke="#c8102e" stroke-width="9" stroke-linejoin="miter" stroke-linecap="square"></path><rect x="37" y="46" width="14" height="14" fill="#fff"></rect><path d="M20 54 V80 H68 V54" fill="none" stroke="#fff" stroke-width="5"></path></svg>
     <span><span class="nume">Ascendent</span><span class="descriere">Agenție imobiliară&nbsp;·&nbsp;Iași</span></span>
   </a>
-  <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
-    <a href="#" onClick="{{ n.onClick }}" aria-current="{{ n.current }}">{{ n.label }}</a>
-  </sc-for>
-  <div style="display:flex;align-items:center;gap:var(--space-2);position:relative">
-    <button class="btn btn-secondary btn-icon" aria-label="Notificări" onClick="{{ toggleBell }}" style="position:relative">
+  <div class="nav-links {{ linksClass }}" id="nav-links">
+    <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+      <a href="#" onClick="{{ n.onClick }}" aria-current="{{ n.current }}">{{ n.label }}</a>
+    </sc-for>
+  </div>
+  <div class="nav-acte">
+    <button class="btn btn-secondary btn-icon clopot nav-burger" aria-label="Meniu" aria-controls="nav-links" aria-expanded="{{ menuExpanded }}" onClick="{{ toggleMenu }}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+    </button>
+    <button class="btn btn-secondary btn-icon clopot" aria-label="Notificări" onClick="{{ toggleBell }}" style="position:relative">
       <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M208,192H48a8,8,0,0,1-6.88-12C47.71,168.6,56,139.81,56,104a72,72,0,0,1,144,0c0,35.82,8.3,64.6,14.9,76A8,8,0,0,1,208,192Z" opacity="0.2"></path><path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path></svg>
       <sc-if value="{{ hasUnread }}" hint-placeholder-val="{{ false }}">
         <span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--color-accent-2);color:var(--color-bg);font-size:11px;line-height:18px;text-align:center">{{ unread }}</span>
       </sc-if>
     </button>
-    <button class="btn btn-secondary" onClick="{{ accountClick }}">{{ accountLabel }}</button>
+    <button class="btn btn-secondary pastila" aria-label="{{ accountLabel }}" title="{{ accountLabel }}" onClick="{{ accountClick }}"><span class="cont-text">{{ accountLabel }}</span><svg class="cont-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg></button>
     <sc-if value="{{ bellOpen }}" hint-placeholder-val="{{ false }}">
       <div class="card elev-lg" style="position:absolute;top:46px;right:0;width:min(380px,90vw);z-index:20;padding:var(--space-4);gap:var(--space-3)">
         <div style="font-family:var(--font-heading);font-weight:600;font-size:17px">Notificări</div>
@@ -430,24 +488,20 @@ a:hover{color:var(--color-accent)}
         <sc-if value="{{ tabPreturi }}" hint-placeholder-val="{{ true }}">
           <h1 style="font-size:clamp(30px,4vw,44px);margin:0">Prețuri</h1>
           <p style="font-size:16px;margin:0;max-width:64ch;text-wrap:pretty">{{ agentHint }}</p>
-          <div style="overflow-x:auto">
-            <table class="table" style="min-width:1240px">
-              <thead><tr><th>Proprietate</th><th>Tranzacție</th><th style="text-align:right">La favorite</th><th>Ultima modificare</th><th>Preț nou (€)</th><th></th><th>Tur virtual 3D (link Matterport)</th><th>Status</th></tr></thead>
-              <tbody>
-                <sc-for list="{{ agentRows }}" as="r" hint-placeholder-count="6">
-                  <tr>
-                    <td><a href="#" onClick="{{ r.onOpen }}">{{ r.title }}</a><div class="text-muted" style="font-size:12px">{{ r.zone }} · acum {{ r.priceLabel }}</div></td>
-                    <td>{{ r.dealLabel }}</td>
-                    <td style="text-align:right;font-variant-numeric:tabular-nums">{{ r.fans }}</td>
-                    <td>{{ r.lastChange }}</td>
-                    <td><input class="input" type="number" min="0" style="width:130px" value="{{ r.draft }}" onChange="{{ r.onDraft }}"></input></td>
-                    <td><button class="btn btn-primary" onClick="{{ r.onSave }}" disabled="{{ r.unchanged }}">Actualizează</button></td>
-                    <td><div style="display:flex;gap:var(--space-2);align-items:center"><input class="input" type="url" placeholder="https://my.matterport.com/show/?m=…" aria-label="{{ r.tourLabel }}" style="width:250px" value="{{ r.tourDraft }}" onChange="{{ r.onTourDraft }}"></input><button class="btn btn-secondary" onClick="{{ r.onTourSave }}" disabled="{{ r.tourUnchanged }}">Salvează</button></div></td>
-                    <td><div style="display:flex;flex-direction:column;gap:var(--space-1);align-items:flex-start"><span class="{{ r.statusClass }}">{{ r.statusLabel }}</span><button class="btn btn-ghost" style="padding:0;min-height:0;font-size:13px" onClick="{{ r.onSold }}">{{ r.soldBtn }}</button></div></td>
-                  </tr>
-                </sc-for>
-              </tbody>
-            </table>
+          <div class="pret-lista">
+            <sc-for list="{{ agentRows }}" as="r" hint-placeholder-count="6">
+              <article class="card pret-card">
+                <div class="pret-cap">
+                  <div class="pret-titlu"><a href="#" onClick="{{ r.onOpen }}">{{ r.title }}</a><div class="text-muted" style="font-size:13px">{{ r.zone }} · {{ r.dealLabel }} · acum {{ r.priceLabel }}</div></div>
+                  <div class="pret-status"><span class="{{ r.statusClass }}">{{ r.statusLabel }}</span><button class="btn btn-ghost" onClick="{{ r.onSold }}">{{ r.soldBtn }}</button></div>
+                </div>
+                <div class="text-muted pret-meta">La favorite: {{ r.fans }} · Ultima modificare: {{ r.lastChange }}</div>
+                <div class="pret-controale">
+                  <div class="field"><label>Preț nou (€)</label><div class="pret-pereche"><input class="input" type="number" min="0" value="{{ r.draft }}" onChange="{{ r.onDraft }}"></input><button class="btn btn-primary" onClick="{{ r.onSave }}" disabled="{{ r.unchanged }}">Actualizează</button></div></div>
+                  <div class="field pret-tur"><label>Tur virtual 3D (link Matterport)</label><div class="pret-pereche"><input class="input" type="url" placeholder="https://my.matterport.com/show/?m=…" aria-label="{{ r.tourLabel }}" value="{{ r.tourDraft }}" onChange="{{ r.onTourDraft }}"></input><button class="btn btn-secondary" onClick="{{ r.onTourSave }}" disabled="{{ r.tourUnchanged }}">Salvează</button></div></div>
+                </div>
+              </article>
+            </sc-for>
           </div>
         </sc-if>
 
@@ -731,7 +785,7 @@ class Component extends DCLogic {
     // Fiecare pagină a site-ului are intrarea ei în istoricul browserului, ca „Înapoi” să ducă la pagina dinainte din site, nu la landing.
     const sNou = sel ?? this.state.sel;
     if (!dinIstoric && (route !== this.state.route || (route === 'detaliu' && sNou !== this.state.sel))) history.pushState({ route, sel: sNou }, '');
-    if (!dinIstoric && route === 'detaliu' && sel && !(this.state.user && this.state.user.isAgent)) api(`/api/vizualizare/${sel}`, {}); this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, mediaTab: route === 'detaliu' ? 'foto' : this.state.mediaTab, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') { this.loadConvs(); if (this.state.agentTab === 'raport') this.loadRaport(); } }
+    if (!dinIstoric && route === 'detaliu' && sel && !(this.state.user && this.state.user.isAgent)) api(`/api/vizualizare/${sel}`, {}); this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, menuOpen: false, mediaTab: route === 'detaliu' ? 'foto' : this.state.mediaTab, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') { this.loadConvs(); if (this.state.agentTab === 'raport') this.loadRaport(); } }
   showToast(t) { clearTimeout(this._t); this.setState({ toast: t }); this._t = setTimeout(() => this.setState({ toast: '' }), 4200); }
   async toggleFav(id) {
     if (!this.state.user) { this.openAuth('intra'); return this.setState({ pendingFav: id }); }
@@ -846,7 +900,10 @@ class Component extends DCLogic {
 
     const unreadN = s.notifs.filter(n => !n.read).length;
     const byId = id => s.props.find(p => p.id === id);
-    const navDefs = [['lista', 'Proprietăți'], ['favorite', `Favorite${s.favs.length ? ' (' + s.favs.length + ')' : ''}`], ['proprietari', 'Pentru proprietari'], ['despre', 'Despre'], ['contact', 'Contact'], ['agent', 'Panou agent']];
+    const esteAdmin = !!(s.user && s.user.isAgent);
+    // Panoul agentului există doar pentru conturile de agent: ceilalți nu văd linkul și nu ajung la pagină nici prin istoric.
+    const ruta = s.route === 'agent' && !esteAdmin ? 'lista' : s.route;
+    const navDefs = [['lista', 'Proprietăți'], ['favorite', `Favorite${s.favs.length ? ' (' + s.favs.length + ')' : ''}`], ['proprietari', 'Pentru proprietari'], ['despre', 'Despre'], ['contact', 'Contact'], ...(esteAdmin ? [['agent', 'Panou agent']] : [])];
 
     const dp = s.sel ? byId(s.sel) : null;
     let d = {};
@@ -886,7 +943,9 @@ class Component extends DCLogic {
 
     return {
       goHome: e => { e && e.preventDefault(); this.go('lista'); },
-      navItems: navDefs.map(([r, l]) => ({ label: l, current: s.route === r ? 'page' : undefined, onClick: e => { e.preventDefault(); this.go(r); } })),
+      navItems: navDefs.map(([r, l]) => ({ label: l, current: ruta === r ? 'page' : undefined, onClick: e => { e.preventDefault(); this.go(r); } })),
+      navClass: esteAdmin ? 'nav nav-admin' : 'nav', linksClass: s.menuOpen ? 'deschis' : '', menuExpanded: String(!!s.menuOpen),
+      toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen, bellOpen: false })),
       unread: unreadN, hasUnread: unreadN > 0, bellOpen: s.bellOpen,
       toggleBell: () => {
         const opening = !s.bellOpen;
@@ -900,8 +959,8 @@ class Component extends DCLogic {
       accountLabel: s.user ? s.user.email : 'Intră în cont',
       accountClick: () => s.user ? this.go('favorite') : this.openAuth('intra'),
 
-      isList: s.route === 'lista', isDetail: s.route === 'detaliu' && !!dp, isFavPage: s.route === 'favorite', isOwners: s.route === 'proprietari',
-      isAbout: s.route === 'despre', isContact: s.route === 'contact', isAgent: s.route === 'agent',
+      isList: ruta === 'lista', isDetail: ruta === 'detaliu' && !!dp, isFavPage: ruta === 'favorite', isOwners: ruta === 'proprietari',
+      isAbout: ruta === 'despre', isContact: ruta === 'contact', isAgent: ruta === 'agent',
 
       f, sort: s.sort, hasFilters,
       dealOpts: opts([['toate', 'Toate'], ['vanzare', 'Vânzare'], ['inchiriere', 'Închiriere']], f.deal, 'deal'),

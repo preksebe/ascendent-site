@@ -44,6 +44,18 @@ deschis doar pe adresa pe care ai intrat.
 - Fontul folosit, Source Serif 4, e în `logo-sursa/font-descarcat/`, descărcat de la Google Fonts. Scriptul `logo-sursa/contur_logo.py`
   reface fișierele finale dacă schimbi ceva la logo.
 
+## Asistentul de pe site (chatbotul)
+
+- Butonul roșu „Întrebați asistentul” din colțul din dreapta jos apare pe ambele pagini.
+- Răspunde cu Claude Haiku 5.5 și folosește doar proprietățile din baza de date a site-ului: caută proprietăți și calculează
+  prețuri medii. Nu are acces la internet.
+- Conversațiile apar în „Panou agent”, la „Conversații cu asistentul” (ultimele 50).
+- Limite: 500 de caractere pe întrebare, 20 de întrebări într-o conversație, 30 de întrebări pe oră de la același vizitator.
+- Pe internet, cheia Anthropic și ID-ul workspace-ului sunt în setările proiectului Vercel (`ANTHROPIC_API_KEY`,
+  `ANTHROPIC_WORKSPACE_ID`). Dacă schimbi cheia în managerul de parole, rulezi din nou `publicare/vercel_chatbot.py` și
+  publici din nou site-ul.
+- Pe calculator, fără cheie, fereastra spune „Asistentul nu e disponibil acum.”
+
 ## Contul de agent
 
 Doar contul de agent poate schimba prețurile din „Panou agent”. Ca să faci un cont de agent:

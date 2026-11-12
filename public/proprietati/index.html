@@ -50,6 +50,25 @@ a:hover{color:var(--color-accent)}
   .banda-antet .nav a{font-size:14px}
   .banda-antet .nav .marca{flex-basis:100%;margin-bottom:var(--space-1)}
 }
+/* panoul agentului: meniu în stânga, conținut în dreapta */
+.panou{display:grid;grid-template-columns:220px minmax(0,1fr);gap:var(--space-6);align-items:start}
+.panou-meniu{position:sticky;top:var(--space-4);display:flex;flex-direction:column;gap:var(--space-1);padding:var(--space-3);border:1px solid var(--color-border);border-radius:8px;background:var(--color-surface,#fff)}
+.panou-eticheta{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent-2-700);padding:var(--space-2) var(--space-3)}
+.panou-link{all:unset;box-sizing:border-box;cursor:pointer;padding:var(--space-2) var(--space-3);border-radius:6px;font-size:15px;border-left:3px solid transparent}
+.panou-link:hover{background:var(--color-accent-100)}
+.panou-link[aria-current='page']{background:var(--color-accent-100);border-left-color:var(--color-accent);font-weight:600}
+.panou-link:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
+.panou-continut{display:flex;flex-direction:column;gap:var(--space-4);min-width:0}
+.raport-grila{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-4)}
+.bara{display:flex;flex-direction:column;gap:2px;font-size:14px}
+.bara-text{display:flex;justify-content:space-between;gap:var(--space-3)}
+.bara-fond{height:8px;background:var(--color-accent-100);border-radius:4px;overflow:hidden}
+.bara-plin{height:100%;background:var(--color-accent)}
+@media (max-width:800px){
+  .panou{grid-template-columns:1fr;gap:var(--space-4)}
+  .panou-meniu{position:static;flex-direction:row;flex-wrap:wrap}
+  .panou-eticheta{display:none}
+}
 </style>
 </helmet>
 <div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)">
@@ -390,45 +409,93 @@ a:hover{color:var(--color-accent)}
 </sc-if>
 
 <sc-if value="{{ isAgent }}" hint-placeholder-val="{{ false }}">
-  <section style="display:flex;flex-direction:column;gap:var(--space-4);padding-top:var(--space-6)">
-    <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-2-700)">Panou agent</div>
-    <h1 style="font-size:clamp(30px,4vw,44px);margin:0">Prețuri</h1>
+  <section style="padding-top:var(--space-6)">
     <sc-if value="{{ notAgentUser }}" hint-placeholder-val="{{ false }}">
       <div style="max-width:560px;display:flex;flex-direction:column;gap:var(--space-3)">
+        <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-2-700)">Panou agent</div>
         <p style="font-size:17px;margin:0;text-wrap:pretty">{{ agentGateText }}</p>
         <sc-if value="{{ notLogged }}" hint-placeholder-val="{{ true }}"><div><button class="btn btn-primary" onClick="{{ openLogin }}">Intră în cont</button></div></sc-if>
       </div>
     </sc-if>
     <sc-if value="{{ isAgentUser }}" hint-placeholder-val="{{ true }}">
-    <p style="font-size:16px;margin:0;max-width:64ch;text-wrap:pretty">{{ agentHint }}</p>
-    <div style="overflow-x:auto">
-      <table class="table" style="min-width:1080px">
-        <thead><tr><th>Proprietate</th><th>Tranzacție</th><th style="text-align:right">La favorite</th><th>Ultima modificare</th><th>Preț nou (€)</th><th></th><th>Tur virtual 3D (link Matterport)</th></tr></thead>
-        <tbody>
-          <sc-for list="{{ agentRows }}" as="r" hint-placeholder-count="6">
-            <tr>
-              <td><a href="#" onClick="{{ r.onOpen }}">{{ r.title }}</a><div class="text-muted" style="font-size:12px">{{ r.zone }} · acum {{ r.priceLabel }}</div></td>
-              <td>{{ r.dealLabel }}</td>
-              <td style="text-align:right;font-variant-numeric:tabular-nums">{{ r.fans }}</td>
-              <td>{{ r.lastChange }}</td>
-              <td><input class="input" type="number" min="0" style="width:130px" value="{{ r.draft }}" onChange="{{ r.onDraft }}"></input></td>
-              <td><button class="btn btn-primary" onClick="{{ r.onSave }}" disabled="{{ r.unchanged }}">Actualizează</button></td>
-              <td><div style="display:flex;gap:var(--space-2);align-items:center"><input class="input" type="url" placeholder="https://my.matterport.com/show/?m=…" aria-label="{{ r.tourLabel }}" style="width:250px" value="{{ r.tourDraft }}" onChange="{{ r.onTourDraft }}"></input><button class="btn btn-secondary" onClick="{{ r.onTourSave }}" disabled="{{ r.tourUnchanged }}">Salvează</button></div></td>
-            </tr>
-          </sc-for>
-        </tbody>
-      </table>
-    </div>
-    <h2 style="font-size:26px;margin:var(--space-6) 0 0">Conversații cu asistentul</h2>
-    <p class="text-muted" style="margin:0;font-size:15px">{{ convHint }}</p>
-    <sc-for list="{{ convs }}" as="c" hint-placeholder-count="0">
-      <details class="card" style="padding:var(--space-3) var(--space-4);max-width:820px">
-        <summary style="cursor:pointer;font-weight:600">{{ c.titlu }}</summary>
-        <sc-for list="{{ c.mesaje }}" as="m" hint-placeholder-count="0">
-          <p style="margin:var(--space-2) 0 0;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere"><strong>{{ m.cine }}:</strong> {{ m.text }}</p>
+    <div class="panou">
+      <nav class="panou-meniu" aria-label="Panou agent">
+        <div class="panou-eticheta">Panou agent</div>
+        <sc-for list="{{ agentMenu }}" as="m" hint-placeholder-count="3">
+          <button type="button" class="panou-link" aria-current="{{ m.current }}" onClick="{{ m.onClick }}">{{ m.label }}</button>
         </sc-for>
-      </details>
-    </sc-for>
+      </nav>
+      <div class="panou-continut">
+
+        <sc-if value="{{ tabPreturi }}" hint-placeholder-val="{{ true }}">
+          <h1 style="font-size:clamp(30px,4vw,44px);margin:0">Prețuri</h1>
+          <p style="font-size:16px;margin:0;max-width:64ch;text-wrap:pretty">{{ agentHint }}</p>
+          <div style="overflow-x:auto">
+            <table class="table" style="min-width:1240px">
+              <thead><tr><th>Proprietate</th><th>Tranzacție</th><th style="text-align:right">La favorite</th><th>Ultima modificare</th><th>Preț nou (€)</th><th></th><th>Tur virtual 3D (link Matterport)</th><th>Status</th></tr></thead>
+              <tbody>
+                <sc-for list="{{ agentRows }}" as="r" hint-placeholder-count="6">
+                  <tr>
+                    <td><a href="#" onClick="{{ r.onOpen }}">{{ r.title }}</a><div class="text-muted" style="font-size:12px">{{ r.zone }} · acum {{ r.priceLabel }}</div></td>
+                    <td>{{ r.dealLabel }}</td>
+                    <td style="text-align:right;font-variant-numeric:tabular-nums">{{ r.fans }}</td>
+                    <td>{{ r.lastChange }}</td>
+                    <td><input class="input" type="number" min="0" style="width:130px" value="{{ r.draft }}" onChange="{{ r.onDraft }}"></input></td>
+                    <td><button class="btn btn-primary" onClick="{{ r.onSave }}" disabled="{{ r.unchanged }}">Actualizează</button></td>
+                    <td><div style="display:flex;gap:var(--space-2);align-items:center"><input class="input" type="url" placeholder="https://my.matterport.com/show/?m=…" aria-label="{{ r.tourLabel }}" style="width:250px" value="{{ r.tourDraft }}" onChange="{{ r.onTourDraft }}"></input><button class="btn btn-secondary" onClick="{{ r.onTourSave }}" disabled="{{ r.tourUnchanged }}">Salvează</button></div></td>
+                    <td><div style="display:flex;flex-direction:column;gap:var(--space-1);align-items:flex-start"><span class="{{ r.statusClass }}">{{ r.statusLabel }}</span><button class="btn btn-ghost" style="padding:0;min-height:0;font-size:13px" onClick="{{ r.onSold }}">{{ r.soldBtn }}</button></div></td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabConversatii }}" hint-placeholder-val="{{ false }}">
+          <h1 style="font-size:clamp(30px,4vw,44px);margin:0">Conversații cu asistentul</h1>
+          <p class="text-muted" style="margin:0;font-size:15px">{{ convHint }}</p>
+          <sc-for list="{{ convs }}" as="c" hint-placeholder-count="0">
+            <details class="card" style="padding:var(--space-3) var(--space-4);max-width:820px">
+              <summary style="cursor:pointer;font-weight:600">{{ c.titlu }}</summary>
+              <sc-for list="{{ c.mesaje }}" as="m" hint-placeholder-count="0">
+                <p style="margin:var(--space-2) 0 0;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere"><strong>{{ m.cine }}:</strong> {{ m.text }}</p>
+              </sc-for>
+            </details>
+          </sc-for>
+        </sc-if>
+
+        <sc-if value="{{ tabRaport }}" hint-placeholder-val="{{ false }}">
+          <h1 style="font-size:clamp(30px,4vw,44px);margin:0">Raport</h1>
+          <p class="text-muted" style="margin:0;font-size:15px;max-width:64ch;text-wrap:pretty">{{ raportHint }}</p>
+
+          <h2 style="font-size:24px;margin:var(--space-4) 0 0">Ce au căutat clienții</h2>
+          <p class="text-muted" style="margin:0;font-size:14px">{{ raportCautariInfo }}</p>
+          <sc-if value="{{ raportAreCautari }}" hint-placeholder-val="{{ false }}">
+            <div class="raport-grila">
+              <sc-for list="{{ raportCautari }}" as="g" hint-placeholder-count="0">
+                <div class="card" style="padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2)">
+                  <h3 style="margin:0;font-size:16px">{{ g.titlu }}</h3>
+                  <sc-for list="{{ g.randuri }}" as="r" hint-placeholder-count="0">
+                    <div class="bara"><div class="bara-text"><span>{{ r.nume }}</span><span>{{ r.n }}</span></div><div class="bara-fond"><div class="bara-plin" style="width:{{ r.latime }}%"></div></div></div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <h2 style="font-size:24px;margin:var(--space-6) 0 0">Ce s-a vândut</h2>
+          <p class="text-muted" style="margin:0;font-size:14px">{{ raportVandInfo }}</p>
+          <sc-if value="{{ raportAreVandute }}" hint-placeholder-val="{{ false }}">
+            <div class="card" style="padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2);max-width:520px">
+              <sc-for list="{{ raportVandute }}" as="r" hint-placeholder-count="0">
+                <div class="bara"><div class="bara-text"><span>{{ r.nume }}</span><span>{{ r.n }}</span></div><div class="bara-fond"><div class="bara-plin" style="width:{{ r.latime }}%"></div></div></div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </sc-if>
+
+      </div>
+    </div>
     </sc-if>
   </section>
 </sc-if>
@@ -548,13 +615,26 @@ class Component extends DCLogic {
     props: [], favs: [], user: null, notifs: [], loading: true, loadErr: false,
     route: 'lista', sel: null, f: { ...DEF_F }, sort: 'noi', bellOpen: false,
     loginOpen: false, auth: { ...DEF_AUTH }, authErr: '', authBusy: false, authSent: false, showResend: false, pendingFav: null,
-    preview: null, toast: '', drafts: {}, tourDrafts: {}, mediaTab: 'foto',
+    preview: null, toast: '', drafts: {}, tourDrafts: {}, mediaTab: 'foto', agentTab: 'preturi',
     visit: { name: '', phone: '', date: '' }, visitSent: false,
     owner: { name: '', phone: '', deal: 'inchiriere', zone: 'Copou', msg: '' }, ownerSent: false,
     contact: { name: '', email: '', msg: '' }, contactSent: false
   };
 
+  // Înregistrează (anonim) ce filtre aleg vizitatorii, ca agentul să vadă în raport ce se caută. Agentul nu se înregistrează.
+  componentDidUpdate() {
+    const k = JSON.stringify(this.state.f);
+    if (k === this._fKey) return;
+    this._fKey = k;
+    clearTimeout(this._fT);
+    if (k === JSON.stringify(DEF_F) || (this.state.user && this.state.user.isAgent)) return;
+    this._fT = setTimeout(() => {
+      const { deal, type, rooms, zone, min, max, area } = this.state.f;
+      api('/api/cautare', { deal, type, rooms, zone, min, max, area });
+    }, 2500);
+  }
   async componentDidMount() {
+    this._fKey = JSON.stringify(DEF_F);
     const qs = new URLSearchParams(location.search);
     const q = qs.get('cont'); const prop = Number(qs.get('proprietate')); const pag = qs.get('pagina');
     if (q || prop || pag) history.replaceState(null, '', location.pathname);
@@ -608,7 +688,24 @@ class Component extends DCLogic {
     const r = await api('/api/agent/conversatii');
     this.setState({ convs: r.ok ? r.data.conversatii : [] });
   }
-  go(route, sel) { this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, mediaTab: route === 'detaliu' ? 'foto' : this.state.mediaTab, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') this.loadConvs(); }
+  async loadRaport() {
+    if (!(this.state.user && this.state.user.isAgent)) return;
+    const r = await api('/api/agent/raport');
+    this.setState({ raport: r.ok ? r.data : null, raportEroare: !r.ok });
+  }
+  setAgentTab(tab) {
+    this.setState({ agentTab: tab });
+    if (tab === 'conversatii') this.loadConvs();
+    if (tab === 'raport') this.loadRaport();
+  }
+  async toggleSold(p) {
+    const r = await api(`/api/agent/vandut/${p.id}`, { vandut: !p.sold });
+    if (!r.ok) return this.showToast(r.data.eroare || 'Nu am putut schimba statusul.');
+    await this.load();
+    const inch = p.deal === 'inchiriere' ? 'închiriată' : 'vândută';
+    this.showToast(p.sold ? `${p.title} e din nou activă pe site.` : `${p.title} e marcată ${inch} și nu mai apare în lista de pe site.`);
+  }
+  go(route, sel) { this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, mediaTab: route === 'detaliu' ? 'foto' : this.state.mediaTab, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') { this.loadConvs(); if (this.state.agentTab === 'raport') this.loadRaport(); } }
   showToast(t) { clearTimeout(this._t); this.setState({ toast: t }); this._t = setTimeout(() => this.setState({ toast: '' }), 4200); }
   async toggleFav(id) {
     if (!this.state.user) { this.openAuth('intra'); return this.setState({ pendingFav: id }); }
@@ -671,10 +768,31 @@ class Component extends DCLogic {
     };
   }
 
+  // Datele din secțiunea Raport, așa cum le dă serverul; nu se calculează nimic în afară de numărătoare și procente de lățime a barelor.
+  raportVals() {
+    const r = this.state.raport;
+    const ETICHETE = { deal: v => (v === 'inchiriere' ? 'Închiriere' : 'Vânzare'), type: v => TYPES[v] || v, rooms: v => (v === '4' ? '4+ camere' : v === '1' ? '1 cameră' : `${v} camere`), zone: v => v };
+    const bare = (arr, nume) => { const max = Math.max(1, ...arr.map(x => x.n)); return arr.slice(0, 8).map(x => ({ nume: nume(x.valoare), n: x.n, latime: Math.round(x.n / max * 100) })); };
+    const c = r && r.cautari;
+    const grupuri = c ? [['Zone', c.zone, ETICHETE.zone], ['Tipuri de proprietăți', c.tipuri, ETICHETE.type], ['Număr de camere', c.camere, ETICHETE.rooms], ['Vânzare sau închiriere', c.tranzactii, ETICHETE.deal]]
+      .filter(([, arr]) => arr.length).map(([titlu, arr, nume]) => ({ titlu, randuri: bare(arr, nume) })) : [];
+    const vand = r ? r.vandute.map(x => ({ valoare: `${TYPES[x.tip] || x.tip} (${x.tranzactie === 'inchiriere' ? 'închiriate' : 'vândute'})`, n: x.n })).sort((a, b) => b.n - a.n) : [];
+    const totalVand = vand.reduce((t, x) => t + x.n, 0);
+    return {
+      raportHint: 'Cifrele vin din baza de date a site-ului. Căutările se înregistrează anonim (fără cont și fără adresa IP), iar vânzările apar când marchezi o proprietate ca vândută în secțiunea Prețuri.',
+      raportAreCautari: grupuri.length > 0, raportCautari: grupuri,
+      raportCautariInfo: this.state.raportEroare ? 'Nu am putut încărca raportul. Reîncarcă pagina.' : !r ? 'Se încarcă…' : !c.total ? 'Nicio căutare înregistrată încă. Înregistrarea a pornit odată cu această secțiune; căutările de dinainte nu s-au salvat.'
+        : `${c.total} ${c.total === 1 ? 'căutare' : 'căutări'} cu filtre în lista de proprietăți, din ${dateL(c.dela)} până acum. ${c.cuBuget} ${c.cuBuget === 1 ? 'a avut' : 'au avut'} și un preț maxim ales.`,
+      raportAreVandute: vand.length > 0, raportVandute: bare(vand, v => v),
+      raportVandInfo: !r ? '' : vand.length ? `${totalVand} ${totalVand === 1 ? 'proprietate marcată' : 'proprietăți marcate'} vândută sau închiriată.` : 'Nicio proprietate marcată vândută încă. Folosește butonul „Marchează vândută” din secțiunea Prețuri.'
+    };
+  }
+
   renderVals() {
     const s = this.state; const f = s.f;
     const opts = (arr, val, key) => arr.map(([v, l]) => ({ v, l, label: l, checked: v === val, onSelect: () => this.setState(st => ({ f: { ...st.f, [key]: v } })) }));
     let list = s.props.filter(p => {
+      if (p.sold) return false; // vândute/închiriate: rămân în panou și la favorite, dar nu în lista publică
       const pr = cur(p);
       if (f.deal !== 'toate' && p.deal !== f.deal) return false;
       if (f.type !== 'toate' && p.type !== f.type) return false;
@@ -793,10 +911,15 @@ class Component extends DCLogic {
         mesaje: c.mesaje.map(m => ({ cine: m.rol === 'user' ? 'Client' : 'Asistent', text: m.text })) })),
       convHint: s.convs === undefined ? 'Se încarcă…' : s.convs.length ? 'Ultimele conversații, cele mai noi primele. Apăsați pe una ca s-o citiți.' : 'Nicio conversație încă.',
       agentHint: this.props.notifyOnlyDrops ? 'Când scazi prețul, clienții cu cont care au proprietatea la favorite primesc o notificare la clopoțel și un email, dacă nu l-au oprit din cont. La creștere nu se trimite nimic.' : 'Când schimbi prețul, clienții cu cont care au proprietatea la favorite primesc o notificare la clopoțel și un email, dacă nu l-au oprit din cont.',
+      agentMenu: [['preturi', 'Prețuri'], ['conversatii', 'Conversații cu asistentul'], ['raport', 'Raport']].map(([t, l]) => ({ label: l, current: s.agentTab === t ? 'page' : undefined, onClick: () => this.setAgentTab(t) })),
+      tabPreturi: s.agentTab === 'preturi', tabConversatii: s.agentTab === 'conversatii', tabRaport: s.agentTab === 'raport',
+      ...this.raportVals(),
       agentRows: s.props.map(p => {
         const fav = s.favs.includes(p.id) && !!s.user;
         const draft = s.drafts[p.id] ?? String(cur(p));
-        return { title: p.title, zone: p.zone, dealLabel: p.deal === 'inchiriere' ? 'Închiriere' : 'Vânzare', priceLabel: priceL(cur(p), p.deal),
+        const inchis = p.deal === 'inchiriere' ? 'Închiriată' : 'Vândută';
+        return { statusLabel: p.sold ? inchis : 'Activă', statusClass: p.sold ? 'tag tag-neutral' : 'tag tag-accent',
+          soldBtn: p.sold ? 'Reactivează' : `Marchează ${inchis.toLowerCase()}`, onSold: () => this.toggleSold(p), title: p.title, zone: p.zone, dealLabel: p.deal === 'inchiriere' ? 'Închiriere' : 'Vânzare', priceLabel: priceL(cur(p), p.deal),
           fans: p.fans + (fav ? ' (inclusiv tu)' : ''), lastChange: p.history.length ? dateL(p.history[p.history.length - 1].date) : '', draft,
           unchanged: !Number(draft) || Number(draft) === cur(p),
           onDraft: e => { const v = e.target.value; this.setState(st => ({ drafts: { ...st.drafts, [p.id]: v } })); },

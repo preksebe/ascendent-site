@@ -5,12 +5,12 @@
   window.__ascendentChat = true;
   var NB = ' ';
   var css = [
-    '.ac-buton{position:fixed;right:18px;bottom:18px;z-index:9000;display:flex;align-items:center;gap:8px;background:#c8102e;color:#fff;border:0;border-radius:999px;padding:14px 20px;font:600 16px/1 "Source Serif 4",Georgia,serif;cursor:pointer;box-shadow:0 8px 24px rgba(200,16,46,.35)}',
+    '.ac-buton{position:fixed;right:18px;bottom:18px;z-index:9000;display:flex;align-items:center;gap:8px;background:#c8102e;color:#fff;border:0;border-radius:999px;padding:14px 20px;font:600 16px/1 "DM Sans",system-ui,sans-serif;cursor:pointer;box-shadow:0 8px 24px rgba(200,16,46,.35)}',
     '.ac-buton:hover{background:#a80d26}.ac-buton:focus-visible{outline:3px solid #201e1d;outline-offset:3px}',
-    '.ac-fereastra{position:fixed;right:18px;bottom:84px;z-index:9001;width:min(380px,calc(100vw - 24px));height:min(560px,calc(100vh - 110px));display:flex;flex-direction:column;background:#fff;color:#201e1d;border-radius:4px;box-shadow:0 18px 50px rgba(32,30,29,.28);font:15px/1.5 "Source Serif 4",Georgia,serif;overflow:hidden}',
+    '.ac-fereastra{position:fixed;right:18px;bottom:84px;z-index:9001;width:min(380px,calc(100vw - 24px));height:min(560px,calc(100vh - 110px));display:flex;flex-direction:column;background:#fff;color:#201e1d;border-radius:4px;box-shadow:0 18px 50px rgba(32,30,29,.28);font:15px/1.5 "DM Sans",system-ui,sans-serif;overflow:hidden}',
     '.ac-fereastra[hidden]{display:none}',
     '.ac-antet{background:#201e1d;color:#fff;padding:14px 16px;border-bottom:4px solid #c8102e;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}',
-    '.ac-antet strong{display:block;font-size:17px}.ac-antet span{display:block;font-size:13px;opacity:.8}',
+    '.ac-antet strong{display:block;font-size:19px;font-family:"DM Serif Display",Georgia,serif;font-weight:400}.ac-antet span{display:block;font-size:13px;opacity:.8}',
     '.ac-inchide{background:none;border:0;color:#fff;font-size:24px;line-height:1;cursor:pointer;padding:0 4px}',
     '.ac-mesaje{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#f3f2f2}',
     '.ac-msg{max-width:88%;padding:10px 12px;border-radius:4px;white-space:pre-wrap;overflow-wrap:anywhere;text-wrap:pretty}',
@@ -24,7 +24,7 @@
     '.ac-form{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(32,30,29,.12)}',
     '.ac-form textarea{flex:1;resize:none;height:44px;font:inherit;padding:10px;border:1px solid rgba(32,30,29,.3);border-radius:2px}',
     '.ac-form textarea:focus-visible{outline:2px solid #c8102e;outline-offset:0}',
-    '.ac-form button{background:#c8102e;color:#fff;border:0;border-radius:2px;padding:0 14px;font:600 15px/1 "Source Serif 4",Georgia,serif;cursor:pointer}',
+    '.ac-form button{background:#c8102e;color:#fff;border:0;border-radius:2px;padding:0 14px;font:600 15px/1 "DM Sans",system-ui,sans-serif;cursor:pointer}',
     '.ac-form button[disabled]{opacity:.6;cursor:default}',
     '.ac-nota{font-size:12px;color:#605d5d;padding:0 12px 10px;text-wrap:pretty}',
     '@media (max-width:520px){.ac-fereastra{right:12px;bottom:76px}.ac-buton{right:12px;bottom:12px}}'

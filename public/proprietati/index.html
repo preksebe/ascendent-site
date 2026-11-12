@@ -403,6 +403,16 @@ a:hover{color:var(--color-accent)}
         </tbody>
       </table>
     </div>
+    <h2 style="font-size:26px;margin:var(--space-6) 0 0">Conversații cu asistentul</h2>
+    <p class="text-muted" style="margin:0;font-size:15px">{{ convHint }}</p>
+    <sc-for list="{{ convs }}" as="c" hint-placeholder-count="0">
+      <details class="card" style="padding:var(--space-3) var(--space-4);max-width:820px">
+        <summary style="cursor:pointer;font-weight:600">{{ c.titlu }}</summary>
+        <sc-for list="{{ c.mesaje }}" as="m" hint-placeholder-count="0">
+          <p style="margin:var(--space-2) 0 0;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere"><strong>{{ m.cine }}:</strong> {{ m.text }}</p>
+        </sc-for>
+      </details>
+    </sc-for>
     </sc-if>
   </section>
 </sc-if>
@@ -577,7 +587,12 @@ class Component extends DCLogic {
     await api('/api/retrimite', { email });
     this.setState({ authBusy: false, authSent: true, authErr: '', showResend: false });
   }
-  go(route, sel) { this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0); }
+  async loadConvs() {
+    if (!(this.state.user && this.state.user.isAgent)) return;
+    const r = await api('/api/agent/conversatii');
+    this.setState({ convs: r.ok ? r.data.conversatii : [] });
+  }
+  go(route, sel) { this.setState({ route, sel: sel ?? this.state.sel, bellOpen: false, visitSent: route === 'detaliu' ? false : this.state.visitSent }); window.scrollTo(0, 0);if (route === 'agent') this.loadConvs(); }
   showToast(t) { clearTimeout(this._t); this.setState({ toast: t }); this._t = setTimeout(() => this.setState({ toast: '' }), 4200); }
   async toggleFav(id) {
     if (!this.state.user) { this.openAuth('intra'); return this.setState({ pendingFav: id }); }
@@ -742,6 +757,9 @@ class Component extends DCLogic {
       setContactName: this.upd('contact', 'name'), setContactEmail: this.upd('contact', 'email'), setContactMsg: this.upd('contact', 'msg'),
       sendContact: e => { e.preventDefault(); this.setState({ contactSent: true }); },
 
+      convs: (s.convs || []).map(c => ({ titlu: `${dateL(c.actualizat)} · ${(k => k === 1 ? '1 întrebare' : k + (k % 100 >= 20 || k % 100 === 0 && k ? ' de întrebări' : ' întrebări'))(c.mesaje.filter(m => m.rol === 'user').length)} · ${(c.mesaje[0] || {}).text ? c.mesaje[0].text.slice(0, 70) : ''}`,
+        mesaje: c.mesaje.map(m => ({ cine: m.rol === 'user' ? 'Client' : 'Asistent', text: m.text })) })),
+      convHint: s.convs === undefined ? 'Se încarcă…' : s.convs.length ? 'Ultimele conversații, cele mai noi primele. Apăsați pe una ca s-o citiți.' : 'Nicio conversație încă.',
       agentHint: this.props.notifyOnlyDrops ? 'Când scazi prețul, clienții cu cont care au proprietatea la favorite primesc o notificare la clopoțel și un email, dacă nu l-au oprit din cont. La creștere nu se trimite nimic.' : 'Când schimbi prețul, clienții cu cont care au proprietatea la favorite primesc o notificare la clopoțel și un email, dacă nu l-au oprit din cont.',
       agentRows: s.props.map(p => {
         const fav = s.favs.includes(p.id) && !!s.user;
@@ -778,5 +796,6 @@ class Component extends DCLogic {
   }
 }
 </script>
+<script src="/chat.js" defer></script>
 </body>
 </html>
